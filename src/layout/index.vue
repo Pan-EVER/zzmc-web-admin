@@ -1,7 +1,46 @@
 <template>
-  <div>
-    <h1>layout</h1>
-    <slot></slot>
-  </div>
+  <a-layout class="layout-container">
+    <a-layout-sider v-model:collapsed="layoutState.collapsed" :trigger="null">
+      <Logo :collapsed="layoutState.collapsed" />
+      <Menu
+        :collapsed="layoutState.collapsed"
+        v-model:selectedKeys="layoutState.selectedKeys"
+        v-model:openKeys="layoutState.openKeys"
+      />
+    </a-layout-sider>
+    <a-layout>
+      <Header v-model:collapsed="layoutState.collapsed" />
+      <a-layout-content class="layout-content">
+        <slot></slot>
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
 </template>
-<script lang="ts" setup></script>
+
+<script setup lang="ts">
+import { reactive } from 'vue'
+import Logo from './logo/index.vue'
+import Menu from './menu/index.vue'
+import Header from './header/index.vue'
+import type { LayoutState } from './types'
+
+// 布局状态
+const layoutState = reactive<LayoutState>({
+  collapsed: false,
+  selectedKeys: [],
+  openKeys: []
+})
+</script>
+
+<style scoped>
+.layout-container {
+  min-height: 100vh;
+}
+
+.layout-content {
+  margin: 16px;
+  padding: 16px;
+  background: #fff;
+  min-height: 280px;
+}
+</style>

@@ -6,6 +6,9 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
+      meta: {
+        showMenu: false,
+      },
       component: () => import('@/views/login/index.vue'),
     },
     // 产品列表页
@@ -21,6 +24,10 @@ const router = createRouter({
     {
       path: '/product/:id',
       name: 'product-detail',
+      meta: {
+        title: '产品详情',
+        showMenu: false,
+      },
       component: () => import('@/views/product/detail/index.vue'),
     },
     // 案例管理页
@@ -36,6 +43,10 @@ const router = createRouter({
     {
       path: '/case/:id',
       name: 'case-detail',
+      meta: {
+        title: '案例详情',
+        showMenu: false,
+      },
       component: () => import('@/views/case/detail/index.vue'),
     },
     // 专利管理页
@@ -60,7 +71,10 @@ const router = createRouter({
     {
       path: '/news/:id',
       name: 'news-detail',
-
+      meta: {
+        title: '新闻详情',
+        showMenu: false,
+      },
       component: () => import('@/views/news/detail/index.vue'),
     },
     //文件下载管理页
