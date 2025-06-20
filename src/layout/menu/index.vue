@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { MenuItem } from '../types'
 import { routesToMenuItems } from './utils'
@@ -62,33 +62,51 @@ const handleMenuClick = (item: MenuItem) => {
   }
 }
 
-// 根据当前路由更新选中的菜单项
+// 查找菜单项的key
+const findMenuKeys = (path: string, items: MenuItem[]): string[] => {
+  for (const item of items) {
+    if (item.route === path) {
+      return [item.key]
+    }
+    if (item.children) {
+      const childKeys = findMenuKeys(path, item.children)
+      if (childKeys.length > 0) {
+        return [item.key, ...childKeys]
+      }
+    }
+  }
+  return []
+}
+
+// 更新选中的菜单项
+const updateSelectedKeys = (path: string) => {
+  const keys = findMenuKeys(path, menuItems)
+  if (keys.length > 0) {
+    selectedKeys.value = [keys[keys.length - 1]]
+    openKeys.value = keys.slice(0, -1)
+  } else if (path === '/') {
+    // 如果是根路径，默认选中home-manage
+    const homeKeys = findMenuKeys('/home-manage', menuItems)
+    if (homeKeys.length > 0) {
+      selectedKeys.value = [homeKeys[homeKeys.length - 1]]
+      openKeys.value = homeKeys.slice(0, -1)
+    }
+  }
+}
+
+// 监听路由变化
 watch(
   () => route.path,
   (path) => {
-    const findMenuKeys = (items: MenuItem[]): string[] => {
-      for (const item of items) {
-        if (item.route === path) {
-          return [item.key]
-        }
-        if (item.children) {
-          const childKeys = findMenuKeys(item.children)
-          if (childKeys.length > 0) {
-            return [item.key, ...childKeys]
-          }
-        }
-      }
-      return []
-    }
-
-    const keys = findMenuKeys(menuItems)
-    if (keys.length > 0) {
-      selectedKeys.value = [keys[keys.length - 1]]
-      openKeys.value = keys.slice(0, -1)
-    }
+    updateSelectedKeys(path)
   },
   { immediate: true }
 )
+
+// 组件挂载时设置默认选中项
+onMounted(() => {
+  updateSelectedKeys(route.path)
+})
 </script>
 
 <style scoped>

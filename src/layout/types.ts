@@ -8,8 +8,6 @@ export interface MenuItem {
 
 export interface LayoutState {
   collapsed: boolean
-  selectedKeys: string[]
-  openKeys: string[]
 }
 
 export interface BreadcrumbItem {

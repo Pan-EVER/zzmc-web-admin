@@ -2,11 +2,7 @@
   <a-layout class="layout-container">
     <a-layout-sider v-model:collapsed="layoutState.collapsed" :trigger="null">
       <Logo :collapsed="layoutState.collapsed" />
-      <Menu
-        :collapsed="layoutState.collapsed"
-        v-model:selectedKeys="layoutState.selectedKeys"
-        v-model:openKeys="layoutState.openKeys"
-      />
+      <Menu :collapsed="layoutState.collapsed" />
     </a-layout-sider>
     <a-layout>
       <Header v-model:collapsed="layoutState.collapsed" />
@@ -26,9 +22,7 @@ import type { LayoutState } from './types'
 
 // 布局状态
 const layoutState = reactive<LayoutState>({
-  collapsed: false,
-  selectedKeys: [],
-  openKeys: []
+  collapsed: false
 })
 </script>
 

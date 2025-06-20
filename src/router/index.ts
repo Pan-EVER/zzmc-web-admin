@@ -11,6 +11,14 @@ const router = createRouter({
       },
       component: () => import('@/views/login/index.vue'),
     },
+    {
+      path: '/home-manage',
+      name: 'home-manage',
+      meta: {
+        title: '首页管理',
+      },
+      component: () => import('@/views/home-manage/index.vue'),
+    },
     // 产品列表页
     {
       path: '/product',
