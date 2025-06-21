@@ -47,16 +47,16 @@ axiosInstance.interceptors.response.use(
   (response: AxiosResponse<Api.Http.BaseResponse>) => {
     const { code, msg } = response.data
 
-    return response
-    // switch (code) {
-    //   case ApiStatus.success:
-    //     return response
-    //   case ApiStatus.unauthorized:
-    //     logOut()
-    //     throw new HttpError(msg || httpMsg.unauthorized, ApiStatus.unauthorized)
-    //   default:
-    //     throw new HttpError(msg || httpMsg.requestFailed, code)
-    // }
+    // return response
+    switch (code) {
+      case ApiStatus.success:
+        return response
+      // case ApiStatus.unauthorized:
+      //   logOut()
+      //   throw new HttpError(msg || httpMsg.unauthorized, ApiStatus.unauthorized)
+      default:
+        throw new HttpError(msg || httpMsg.requestFailed, code)
+    }
   },
   (error) => {
     return Promise.reject(handleError(error))
@@ -65,14 +65,6 @@ axiosInstance.interceptors.response.use(
 
 // 请求函数
 async function request<T = any>(config: ExtendedAxiosRequestConfig): Promise<T> {
-  // 对 POST | PUT 请求特殊处理
-  if (config.method?.toUpperCase() === 'POST' || config.method?.toUpperCase() === 'PUT') {
-    if (config.params && !config.data) {
-      config.data = config.params
-      config.params = undefined
-    }
-  }
-
   try {
     const res = await axiosInstance.request<Api.Http.BaseResponse<T>>(config)
     return res.data.data as T
@@ -86,25 +78,6 @@ async function request<T = any>(config: ExtendedAxiosRequestConfig): Promise<T> 
   }
 }
 
-// API 方法集合
-const serverApi = {
-  get<T>(config: ExtendedAxiosRequestConfig): Promise<T> {
-    return request<T>({ ...config, method: 'GET' })
-  },
-  post<T>(config: ExtendedAxiosRequestConfig): Promise<T> {
-    return request<T>({ ...config, method: 'POST' })
-  },
-  put<T>(config: ExtendedAxiosRequestConfig): Promise<T> {
-    return request<T>({ ...config, method: 'PUT' })
-  },
-  del<T>(config: ExtendedAxiosRequestConfig): Promise<T> {
-    return request<T>({ ...config, method: 'DELETE' })
-  },
-  request<T>(config: ExtendedAxiosRequestConfig): Promise<T> {
-    return request<T>({ ...config })
-  },
-}
-
 // 退出登录函数
 const logOut = (): void => {
   // setTimeout(() => {
@@ -112,4 +85,4 @@ const logOut = (): void => {
   // }, LOGOUT_DELAY)
 }
 
-export { serverApi }
+export { request }
