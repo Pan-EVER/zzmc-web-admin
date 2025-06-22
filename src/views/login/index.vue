@@ -62,7 +62,7 @@ const handleSubmit = () => {
   if (username.trim() == '' || password.trim() == '') {
     return message.warning('用户名或密码不能为空！')
   }
-  message.loading('登录中...', 0)
+  // message.loading('登录中...', 0)
   loading.value = true
   console.log(loginFormModel.value)
   // params.password = md5(password)
@@ -73,11 +73,11 @@ const handleSubmit = () => {
   if (!user) {
     message.error('用户名或密码错误！')
     loading.value = false
-    message.destroy()
     return
   }
   // 存一个当前的时间戳到localStorage
-  localStorage.setItem('loginTime', Date.now().toString())
+  localStorage.setItem('loginTime', JSON.stringify(Date.now()))
+  localStorage.setItem('username', JSON.stringify(user.username))
   message.success('登录成功！')
   setTimeout(() => router.push('/home-manage'))
   // setTimeout(() => router.replace((route.query.redirect as string) || '/'))
