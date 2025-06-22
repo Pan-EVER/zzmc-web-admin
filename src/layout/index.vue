@@ -22,19 +22,20 @@ import type { LayoutState } from './types'
 
 // 布局状态
 const layoutState = reactive<LayoutState>({
-  collapsed: false
+  collapsed: false,
 })
 </script>
 
 <style scoped>
 .layout-container {
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .layout-content {
   margin: 16px;
   padding: 16px;
   background: #fff;
-  min-height: 280px;
+  height: calc(100vh - 64px - 32px); /* 减去头部高度(64px)和上下边距(32px) */
+  overflow-y: auto;
 }
 </style>
