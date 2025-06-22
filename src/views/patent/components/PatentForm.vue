@@ -14,9 +14,9 @@
 
       <a-form-item label="专利类型" required>
         <a-select v-model:value="formState.type" placeholder="请选择专利类型">
-          <a-select-option :value="1">发明专利</a-select-option>
-          <a-select-option :value="2">实用新型专利</a-select-option>
-          <a-select-option :value="3">外观设计专利</a-select-option>
+          <a-select-option :value="1">气浮轴承</a-select-option>
+          <a-select-option :value="2">气浮辊</a-select-option>
+          <a-select-option :value="3">气浮运动平台</a-select-option>
         </a-select>
       </a-form-item>
 
@@ -27,6 +27,7 @@
           :beforeUpload="beforeUpload"
           :maxCount="1"
           @preview="handlePreview"
+          @change="handleFileChange"
         >
           <div v-if="fileList.length < 1">
             <upload-outlined />
@@ -74,7 +75,7 @@ const emit = defineEmits<{
 const formState = reactive<{
   name: string
   type: number | null
-  imageId: number
+  imageId: number | null
 }>({
   name: '',
   type: null,
@@ -123,6 +124,16 @@ const beforeUpload: UploadProps['beforeUpload'] = (file) => {
   return false
 }
 
+// 处理文件变化
+const handleFileChange = (info: any) => {
+  // 当上传了新文件且专利名称为空时，自动填充文件名
+  if (info.fileList.length > 0 && info.fileList[0].originFileObj && !formState.name) {
+    // 获取文件名（去除扩展名）
+    const fileName = info.fileList[0].name.split('.').slice(0, -1).join('.')
+    formState.name = fileName
+  }
+}
+
 // 预览上传的图片
 const handlePreview = async (file: any) => {
   if (!file.url && !file.preview) {
@@ -166,7 +177,7 @@ const handleOk = async () => {
     if (fileList.value.length > 0 && fileList.value[0].originFileObj) {
       const file = fileList.value[0].originFileObj
       const uploadRes = await uploadFile(file)
-      formState.imageId =uploadRes.id
+      formState.imageId = uploadRes.id
     }
 
     const data: CreatePatentDto = {
