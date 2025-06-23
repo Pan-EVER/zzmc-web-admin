@@ -3,23 +3,25 @@ const productListColumn = [
         title:'产品名称',
         dataIndex:'productName',
         width:300
-    },{
+    },
+    {       
+        title:'产品描述',
+        dataIndex:'productDesc',
+        width:300,
+        ellipsis: true,
+
+    },
+    {
         title:'操作',
         dataIndex:'operation',
     }
 ]
 
 const _operationButtons = [{
-    label:'查看详情',
+    label:'编辑',
     evnet:null
 },{
-    label:'添加型号',
-    evnet:null
-},{
-    label:'上架',
-    evnet:null
-},{
-    label:'下架',
+    label:'型号系列管理',
     evnet:null
 },{
     label:'删除产品',

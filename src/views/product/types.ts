@@ -8,7 +8,8 @@ export interface Product {
   id: number
   productName: string
   key: Number,
-  models: Model[]
+  models: Model[],
+  productDesc:string
 }
 
 export interface listColumn {
@@ -18,5 +19,7 @@ export interface listColumn {
 
 export interface FormState {
   productName: string
-  description: string
+  description: string,
+  title: string,
+  titleDesc: string,
 }

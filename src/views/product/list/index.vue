@@ -4,8 +4,8 @@
             <a-button type="primary" @click="handleAddProduct">新增产品</a-button>
         </div>
         <div class="table-container">
-            <a-table :columns="columns" :data-source="productData" expandRowByClick :expandedRowKeys="expandedRowKeys"
-                rowKey="id" :pagination="false">
+            <a-table :columns="columns" :data-source="productData" 
+                rowKey="id" >
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
                         <div class="operation-buttons">
@@ -15,13 +15,13 @@
                         </div>
                     </template>
                 </template>
-                <template #expandIcon="props">
+                <!-- <template #expandIcon="props">
                     <div @click="_ => handleExpandedRowsChange(props.record)">
                         <CaretDownOutlined v-if="props.expanded" :style="{ fontSize: '18px' }" />
                         <CaretUpOutlined v-else :style="{ fontSize: '18px' }" />
                     </div>
-                </template>
-                <template #expandedRowRender="{ record }">
+                </template> -->
+                <!-- <template #expandedRowRender="{ record }">
                     <div class="expanded-row-item">
                         <a-table :showHeader="false" :data-source="record.models" :columns="modelColumns"
                             :pagination="false">
@@ -41,24 +41,10 @@
                             </template>
                         </a-table>
                     </div>
-                </template>
+                </template> -->
             </a-table>
         </div>
-        <template>
-            <a-modal v-model:open="visible" title="新建产品" @ok="handleSave" @cancel="resetForm" cancelText="取消"
-                okText="保存">
-                <a-form :model="formState" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" autocomplete="off"
-                    :rules="rules" ref="formRef">
-                    <a-form-item label="产品名称" name="productName">
-                        <a-input v-model:value="formState.productName" placeholder="输入产品名称" />
-                    </a-form-item>
-                    <a-form-item label="描述" name="description">
-                        <a-textarea v-model:value="formState.description" placeholder="输入产品描述"
-                            :auto-size="{ minRows: 5, maxRows: 10 }" />
-                    </a-form-item>
-                </a-form>
-            </a-modal>
-        </template>
+        <product-maintenance ref="productMaintenanceRef" />
     </div>
 </template>
 
@@ -70,19 +56,13 @@ import {
     CaretUpOutlined,
     CaretDownOutlined
 } from '@ant-design/icons-vue';
-
-
-const rules = {
-    productName: [{ required: true, message: '请输入产品名称!' }],
-    description: [{ required: true, message: '请输入产品描述!' }]
-
-
-}
+import productMaintenance from '../component/productMaintenance.vue';
 
 const productData = ref<Product[]>([{
     id: Date.now(),
     productName: '产品1',
     key: 1,
+    productDesc:'这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述',
     models: [
         {
             modelId: Date.now(),
@@ -101,6 +81,7 @@ const productData = ref<Product[]>([{
     id: Date.now() + Date.now(),
     productName: '产品2',
     key: 1,
+    productDesc:'这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述',
     models: [
         {
             modelId: Date.now(),
@@ -120,16 +101,10 @@ const productData = ref<Product[]>([{
 const columns = ref<listColumn[]>(productListColumn)
 const expandedRowKeys = ref<Number[]>([])
 const operationButtons = ref(_operationButtons)
-const visible = ref<boolean>(false);
-const formState = reactive<FormState>({
-    productName: '',
-    description: '',
-});
-
-const formRef = ref(null);
+const productMaintenanceRef = ref<InstanceType<typeof productMaintenance> | null>(null)
 
 const handleAddProduct = () => {
-    visible.value = true;
+    productMaintenanceRef.value?.showModel()
 }
 
 const handleExpandedRowsChange = (expanded: Product) => {
@@ -141,25 +116,14 @@ const handleExpandedRowsChange = (expanded: Product) => {
     }
 }
 
-const handleSave = async () => {
-    const isPass = await formRef.value.validate()
-    if (isPass) {
-        addProductList(formState)
-        resetForm()
-    }
-}
-const resetForm = () => {
-    formRef.value.resetFields()
-    formRef.value.clearValidate()
-    visible.value = false
-}
 
 const addProductList = (newInfo: FormState) => {
     productData.value.push({
         id: Date.now(),
         key: Date.now(),
         ...newInfo,
-        models: []
+        models: [],
+        productDesc:''
     })
 }
 
