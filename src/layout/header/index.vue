@@ -6,11 +6,7 @@
         class="trigger"
         @click="() => $emit('update:collapsed', false)"
       />
-      <MenuFoldOutlined
-        v-else
-        class="trigger"
-        @click="() => $emit('update:collapsed', true)"
-      />
+      <MenuFoldOutlined v-else class="trigger" @click="() => $emit('update:collapsed', true)" />
       <a-breadcrumb>
         <a-breadcrumb-item v-for="item in breadcrumbs" :key="item.path">
           {{ item.title }}
@@ -23,18 +19,10 @@
           <a-avatar>
             <template #icon><UserOutlined /></template>
           </a-avatar>
-          <span class="username">管理员</span>
+          <span class="username">{{ username || '--' }}</span>
         </a>
         <template #overlay>
           <a-menu>
-            <a-menu-item key="profile">
-              <UserOutlined />
-              <span>个人信息</span>
-            </a-menu-item>
-            <!-- <a-menu-item key="settings">
-              <SettingOutlined />
-              <span>系统设置</span>
-            </a-menu-item> -->
             <a-menu-divider />
             <a-menu-item key="logout" @click="handleLogout">
               <LogoutOutlined />
@@ -52,14 +40,13 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   UserOutlined,
-  SettingOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { BreadcrumbItem } from '../types'
 
-const props = defineProps<{
+defineProps<{
   collapsed: boolean
 }>()
 
@@ -69,6 +56,12 @@ defineEmits<{
 
 const router = useRouter()
 const route = useRoute()
+
+const username = ref('')
+
+onMounted(() => {
+  username.value = JSON.parse(localStorage.getItem('username') || '--')
+})
 
 // 计算面包屑数据
 const breadcrumbs = computed<BreadcrumbItem[]>(() => {
@@ -80,7 +73,7 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() => {
     if (route.meta?.title) {
       items.push({
         path: currentPath,
-        title: route.meta.title as string
+        title: route.meta.title as string,
       })
     }
   })
@@ -90,6 +83,8 @@ const breadcrumbs = computed<BreadcrumbItem[]>(() => {
 
 const handleLogout = () => {
   // 实现登出逻辑
+  localStorage.setItem('loginTime', JSON.stringify(null))
+  localStorage.setItem('username', JSON.stringify(null))
   router.push('/login')
 }
 </script>

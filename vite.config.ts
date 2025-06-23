@@ -31,9 +31,15 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://8.138.37.133:3000/',
+        // target: 'http://localhost:3000/',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        // rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+      '/uploads': {
+        target: 'http://8.138.37.133:3000/',
+        // target: 'http://localhost:3000/',
+        changeOrigin: true,
+      },
+    },
   },
 })

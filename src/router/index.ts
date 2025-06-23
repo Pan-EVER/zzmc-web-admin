@@ -5,6 +5,14 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'home',
+      meta: {
+        showMenu: false,
+      },
+      redirect: '/home-manage',
+    },
+    {
+      path: '/login',
       name: 'login',
       meta: {
         showMenu: false,
@@ -95,6 +103,25 @@ const router = createRouter({
       component: () => import('@/views/file/index.vue'),
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  // 如果是登录页面，直接通过
+  if (to.path === '/login') {
+    next()
+    return
+  }
+
+  const loginTime = JSON.parse(localStorage.getItem('loginTime') || 'null')
+  const currentTime = new Date().getTime()
+  const expirationTime = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+
+  // 未登录或登录已过期
+  if (!loginTime || currentTime - Number(loginTime) > expirationTime) {
+    next('/login')
+  } else {
+    next()
+  }
 })
 
 export default router
