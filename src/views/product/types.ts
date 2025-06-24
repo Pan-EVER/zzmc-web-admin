@@ -1,15 +1,15 @@
+import type { UploadFile } from 'ant-design-vue';
 export interface Model{
-    modelId: number
+    modelId: string
     modelName: string,
-    description: string,
-    isEdit:boolean
+    modelDesc: string
 }
 export interface Product {
   id: number
   productName: string
   key: Number,
   models: Model[],
-  productDesc:string
+  description:string
 }
 
 export interface listColumn {
@@ -23,3 +23,10 @@ export interface FormState {
   title: string,
   titleDesc: string,
 }
+
+
+
+export interface ContentItem  {
+  content: string;
+  image: UploadFile[];
+};

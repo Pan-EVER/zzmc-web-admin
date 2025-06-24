@@ -6,7 +6,7 @@ const productListColumn = [
     },
     {       
         title:'产品描述',
-        dataIndex:'productDesc',
+        dataIndex:'description',
         width:300,
         ellipsis: true,
 
@@ -19,14 +19,17 @@ const productListColumn = [
 
 const _operationButtons = [{
     label:'编辑',
-    evnet:null
+    event:null,
+    prop:'edit'
 },{
     label:'型号系列管理',
-    evnet:null
+    event:null,
+    prop:'modelManage'
 },{
     label:'删除产品',
-    evnet:null,
-    danger:true
+    event:null,
+    danger:true,
+    prop:'delete'
 }
 ]
 
@@ -34,8 +37,16 @@ const modelColumns = [
     {
         title:'型号名称',
         dataIndex:'modelName',
+        width:100,
+        ellipsis: true,
+    },
+    {
+
+        title:'SKU',
+        dataIndex:'modelId',
         width:100
-    },{
+    },
+    {
         title:'操作',
         dataIndex:'operation',
          width:300
