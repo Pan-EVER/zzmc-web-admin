@@ -132,7 +132,7 @@ defineExpose({ showModel })
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
                         <a-button type="text">编辑</a-button>
-                        <a-button type="text" @click="handleDelete(record)">删除</a-button>
+                        <a-button type="text" danger @click="handleDelete(record)">删除</a-button>
                     </template>
                 </template>
             </a-table>

@@ -26,7 +26,8 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 import type { Product, listColumn, FormState, Model, ContentItem } from '../types'
 import { productListColumn, _operationButtons, modelColumns } from '../constant'
