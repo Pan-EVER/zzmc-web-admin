@@ -4,8 +4,9 @@
             <a-button type="primary" @click="handleAddProduct(false)">新增产品</a-button>
         </div>
         <div class="table-container">
-            <a-table :columns="columns" :data-source="productData" rowKey="id" :scroll="{ y: '100%' }"
-                @change="handleTableChange" :style="{ height: maxHeight }">
+            <!-- :scroll="{ y: maxHeight }" :style="{ height: maxHeight +'px'}"-->
+            <a-table :columns="columns" :data-source="productData" rowKey="id" 
+                @change="handleTableChange" >
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
                         <div class="operation-buttons">
@@ -33,7 +34,7 @@ import { productListColumn, _operationButtons, modelColumns } from '../constant'
 import productMaintenance from '../component/productMaintenance.vue';
 import ModelMaintenance from '../component/ModelMaintenance.vue';
 
-const defaultHeight = document.body.clientHeight - 220
+const defaultHeight = document.body.clientHeight - 300
 let maxHeight = ref(defaultHeight)
 
 const productData = ref<Product[]>([{
@@ -169,7 +170,7 @@ onUnmounted(() => {
     }
 
     .table-container {
-        height: calc(100vh - 200px);
+        // height: calc(100vh - 200px);
 
     }
 
