@@ -2,18 +2,18 @@ const productListColumn = [
     {
         title:'产品名称',
         dataIndex:'productName',
-        width:300
+        width:200
     },
     {       
         title:'产品描述',
         dataIndex:'description',
-        width:300,
         ellipsis: true,
 
     },
     {
         title:'操作',
         dataIndex:'operation',
+        width:300,
     }
 ]
 

@@ -9,7 +9,7 @@
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
                         <div class="operation-buttons">
-                            <a-button type="text" v-for="item in operationButtons" :key="item.prop"
+                            <a-button type="link" v-for="item in operationButtons" :key="item.prop"
                                 :danger="item.danger" @click="_ => item.event && item.event({ ...record, ...item })">{{
                                     item.label }}</a-button>
                         </div>
@@ -84,7 +84,7 @@ const editFormInfo = ref({})
 const modelMaintenanceRef = ref()
 const handleAddProduct = (flag: boolean) => {
     isEdit.value = flag
-    editFormInfo.value = {}
+    !flag&&(editFormInfo.value = {})
     productMaintenanceRef.value?.showModel()
 }
 
@@ -174,7 +174,7 @@ onUnmounted(() => {
     }
 
     .operation-buttons {
-        margin-right: 10px;
+        // margin-right: 10px;
     }
 }
 </style>

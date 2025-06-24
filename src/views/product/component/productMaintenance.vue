@@ -3,7 +3,7 @@
         @cancel="handleCancel" ok-text="保存" cancel-text="取消">
         <a-form :model="form" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }" layout="horizontal" :rules="rules" ref="formRef">
             <!-- 基本信息 -->
-            <a-divider orientation="left" style="font-size: 16px;">基本信息</a-divider>
+            <a-divider orientation="center" style="font-size: 16px;">基本信息</a-divider>
             <a-form-item label="产品名称" name="productName" >
                 <a-input v-model:value="form.productName" placeholder="请输入产品名称" />
             </a-form-item>
@@ -12,7 +12,7 @@
             </a-form-item>
 
             <!-- 概览信息 -->
-            <a-divider orientation="left" style="font-size: 16px;">概览信息</a-divider>
+            <a-divider orientation="center" style="font-size: 16px;">概览信息</a-divider>
             <a-form-item label="标题" name="title">
                 <a-input v-model:value="form.title" placeholder="请输入标题" />
             </a-form-item>
@@ -37,9 +37,9 @@
                     </a-col>
                     <a-col :span="12" class="d-flex align-items-center">
                         <span style="margin-right: 8px">内容区域{{ index + 1 }}图片</span>
-                        <a-upload list-type="picture-card" :file-list="item.image"
+                        <a-upload list-type="picture-card" v-model:fileList="item.image"
                             :before-upload="(file: UploadFile) => beforeUpload(file, item)" :on-remove="(file: UploadFile) => onRemove(file, item)"
-                            class="content-area-img">
+                            class="content-area-img" :maxCount="1">
                             <div>
                                 <PlusOutlined />
                                 <div style="margin-top: 8px">上传</div>
@@ -169,7 +169,7 @@ function beforeUpload(file: UploadFile, currentInfo:ContentItem) {
         message.error('仅支持 JPG/PNG 格式！')
         return false
     }
-    currentInfo.image.push(file)
+    return false
 }
 
 function onRemove(file: UploadFile, currentInfo:ContentItem) {
