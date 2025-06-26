@@ -6,7 +6,7 @@
         <div class="table-container">
             <!-- :scroll="{ y: maxHeight }" :style="{ height: maxHeight +'px'}"-->
             <a-table :columns="columns" :data-source="productData" rowKey="id" 
-                @change="handleTableChange" >
+                @change="handleTableChange"  :loading="loading">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
                         <div class="operation-buttons">
@@ -35,55 +35,23 @@ import { productListColumn, _operationButtons, modelColumns } from '../constant'
 import productMaintenance from '../component/productMaintenance.vue';
 import ModelMaintenance from '../component/ModelMaintenance.vue';
 
+import {getProductList } from '@/api/product/productList'
+
+import { useRequest } from 'vue-request'
+
+const { data: productData, run: fetchList, loading } = useRequest(getProductList)
+
 const defaultHeight = document.body.clientHeight - 300
 let maxHeight = ref(defaultHeight)
 
-const productData = ref<Product[]>([{
-    id: Date.now(),
-    productName: '产品1',
-    key: 1,
-    description: '这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述',
-    models: [
-        {
-            modelId: Date.now(),
-            modelName: '型号1',
-            isEdit: false,
-            description: '这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述',
-        },
-        {
-            modelId: Date.now() + 2,
-            modelName: '型号2',
-            description: '这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述',
-            isEdit: false
-        }
-    ]
-}, {
-    id: Date.now() + Date.now(),
-    productName: '产品2',
-    key: 1,
-    description: '这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述,这是一个产品的描述',
-    models: [
-        {
-            modelId: Date.now(),
-            modelName: '型号1',
-            description: '这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述',
-            isEdit: false
-
-        },
-        {
-            modelId: Date.now() + 2,
-            modelName: '型号2',
-            description: '这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述,这是一个型号的描述',
-            isEdit: false
-        }
-    ]
-}])
+// const productData = ref<Product[]>([])
 const columns = ref<listColumn[]>(productListColumn)
 const operationButtons = ref(_operationButtons)
 const productMaintenanceRef = ref<InstanceType<typeof productMaintenance> | null>(null)
 const isEdit = ref(false)
 const editFormInfo = ref({})
 const modelMaintenanceRef = ref()
+
 const handleAddProduct = (flag: boolean) => {
     isEdit.value = flag
     !flag&&(editFormInfo.value = {})
@@ -101,7 +69,7 @@ const handleButtonEvent = (prop: string, currentRowInfos: ContentItem) => {
             handleAddProduct(true)
             break;
         case 'modelManage':
-            modelMaintenanceRef.value?.showModel()
+            modelMaintenanceRef.value?.showModel(currentRowInfos)
             break;
         case 'delete':
             break;
@@ -133,11 +101,7 @@ const maintainProductList = (newInfo: FormState & Product) => {
             return item
         })
     } else {
-        productData.value.push({
-            ...newInfo,
-            id: Date.now(),
-            models: [],
-        })
+        fetchList()
     }
 }
 
@@ -148,6 +112,7 @@ const resize = () => {
 
 onBeforeMount(() => {
     setEvent()
+    fetchList()
 })
 onMounted(() => {
     addEventListener('resize', resize)

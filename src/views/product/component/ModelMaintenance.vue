@@ -4,6 +4,7 @@ import { message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 import {  modelColumns } from '../constant'
 import type { Model} from '../types'
+import {getModelsByProductId } from '@/api/product/productList'
 
 const rules ={
     modelId: [{ required: true, message: '请输入型号SKU' }],
@@ -33,9 +34,11 @@ const newModelForm = reactive({
     modelDesc:""
 })
 const formRef = ref()
-const showModel = () => {
+const showModel = async (currentRowInfo) => {
     visible.value = true
     modelData.value = []
+    
+    await getModelsByProductId(currentRowInfo?.id)
 }
 
 
@@ -124,7 +127,7 @@ defineExpose({ showModel })
 
 
 <template> 
-    <a-modal v-model:open="visible" :title="`${currentRowInfo.productName}-型号系列管理`" width="600px" :ok-loading="loading" @ok="handleOk"  @cancel="handleCancel" ok-text="保存" cancel-text="取消">
+    <a-modal v-model:open="visible" :title="`${currentRowInfo.name}-型号系列管理`" width="600px" :ok-loading="loading" @ok="handleOk"  @cancel="handleCancel" ok-text="保存" cancel-text="取消">
         <a-button type="primary" @click="showNewModels" class="custom-button">新增型号</a-button>
         <div class="table-container">
             <a-table :columns="columns" :data-source="modelData" rowKey="id"

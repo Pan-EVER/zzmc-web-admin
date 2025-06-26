@@ -1,7 +1,7 @@
 const productListColumn = [
     {
         title:'产品名称',
-        dataIndex:'productName',
+        dataIndex:'name',
         width:200
     },
     {       
