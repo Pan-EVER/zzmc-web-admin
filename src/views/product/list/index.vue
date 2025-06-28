@@ -99,7 +99,7 @@ const resize = () => {
 
 onBeforeMount(() => {
     setEvent()
-    fetchList()
+    // fetchList()
 })
 onMounted(() => {
     addEventListener('resize', resize)

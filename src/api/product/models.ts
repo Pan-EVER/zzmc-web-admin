@@ -188,9 +188,18 @@ export const addModels = (productId:number,data:Request)=>{
     })
 }
 
-export const getModelDetailById = (id:number)=>{
+export const getModelDetailById = (id:string|number)=>{
     return request({
         url: `/products/models/${id}`,
         method: 'get',
+    })
+}
+
+
+export const updateCurrentModel = (id:number,data:Request)=>{
+     return request({
+      url: `/products/models/${id}`,
+      method: 'patch',
+      data,
     })
 }

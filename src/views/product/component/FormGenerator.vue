@@ -1,6 +1,6 @@
 <!-- FormGenerator.vue -->
 <template>
-  <a-form :model="localModel" @finish="handleFinish" :rules="rules" v-bind="componentAttrs">
+  <a-form :model="localModel" :rules="rules" v-bind="componentAttrs" :class="className">
     <a-form-item v-for="field in fields" :key="field.name" :label="field.label" :name="field.name">
       <!-- v-on="field.events"  -->
       <component :is="getComponent(field.type)" v-model:value="localModel[field.name]" v-bind="field.attrs"
@@ -15,10 +15,13 @@
       </component>
       <slot v-else :name="`${field.name}-${field.type}`" :item="field" v-bind="field.attrs"></slot>
     </a-form-item>
-    <a-form-item>
+    <!-- <a-form-item class="footer-button">
       <a-button type="primary" html-type="submit">提交</a-button>
-    </a-form-item>
+    </a-form-item> -->
   </a-form>
+  <div class="footer-button">
+    <a-button type="primary" @click="handleFinish">{{ buttonContent }}</a-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -36,9 +39,11 @@ const props = defineProps<{
   }>;
   rules?: Array<Record<string, any>>;
   componentAttrs?: Record<string, any>;
+  className?: string;
+  buttonContent?: string;
 }>();
 
-const emit = defineEmits(['update:modelValue', 'finish']);
+const emit = defineEmits(['update:modelValue', 'on-finish']);
 
 // 本地副本，响应父组件传入的数据
 const localModel = reactive({ ...props.modelValue });
@@ -77,9 +82,14 @@ const getComponent = (type: string) => {
   }
 }
 
-function handleFinish() {
-  emit('finish', { ...localModel });
+const  handleFinish = () =>{
+  emit('on-finish', { ...localModel });
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.footer-button {
+  text-align: right;
+  width: 100%;
+}
+</style>
