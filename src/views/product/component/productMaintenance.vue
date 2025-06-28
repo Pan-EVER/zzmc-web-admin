@@ -312,7 +312,7 @@ const handleOk = async () => {
                     ...item,
                     image: {
                         id: item.image[0]?.id,
-                        filename: item.image[0]?.originalName || item.image[0]?.fileName,
+                        filename: item.image[0]?.originalName || item.image[0]?.filename,
                         url: item.image[0]?.url,
                     }
                 }
@@ -325,8 +325,12 @@ const handleOk = async () => {
         }else {
             await addProducts(params)
         }
-        emit('on-save', params)
-        visible.value = false;
+        message.success('保存成功')
+        setTimeout(() => {
+            emit('on-save', params)
+            visible.value = false;
+        }, 1000);
+     
     }
     // emit('on-save', form)
     // visible.value = false;

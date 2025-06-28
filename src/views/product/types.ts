@@ -1,8 +1,8 @@
 import type { UploadFile } from 'ant-design-vue';
 export interface Model{
-    modelId: string
-    modelName: string,
-    modelDesc: string
+    sku: string;
+    name: string;
+    description: string;
 }
 export interface Product {
   id: number

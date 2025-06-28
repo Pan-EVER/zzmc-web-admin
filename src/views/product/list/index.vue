@@ -89,20 +89,7 @@ const setEvent = () => {
 
 
 const maintainProductList = (newInfo: FormState & Product) => {
-    if (isEdit.value) {
-        const { id } = newInfo;
-        productData.value = productData.value.map(item => {
-            if (item.id === id) {
-                item = {
-                    ...item,
-                    ...newInfo
-                }
-            }
-            return item
-        })
-    } else {
-        fetchList()
-    }
+    fetchList()
 }
 
 const resize = () => {
