@@ -113,14 +113,14 @@ const router = createRouter({
       },
       component: () => import('@/views/news/detail/index.vue'),
     },
-    //文件下载管理页
+    // 文件下载管理页
     {
-      path: '/file',
-      name: 'file',
+      path: '/file-download',
+      name: 'file-download',
       meta: {
         title: '文件下载管理',
       },
-      component: () => import('@/views/file/index.vue'),
+      component: () => import('@/views/file-download/index.vue'),
     },
   ],
 })

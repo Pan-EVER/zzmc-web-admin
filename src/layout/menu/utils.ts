@@ -16,7 +16,7 @@ const iconMap: Record<string, any> = {
   case: SnippetsOutlined,
   news: ReadOutlined,
   patent: FileImageOutlined,
-  file: FileOutlined,
+  'file-download': FileOutlined,
 }
 
 // 将路由配置转换为菜单项
