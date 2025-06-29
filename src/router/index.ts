@@ -93,12 +93,22 @@ const router = createRouter({
       },
       component: () => import('@/views/news/list/index.vue'),
     },
-    // 新闻详情页
+    // 新增新闻页
     {
-      path: '/news/:id',
+      path: '/news/detail',
+      name: 'news-create',
+      meta: {
+        title: '新增新闻',
+        showMenu: false,
+      },
+      component: () => import('@/views/news/detail/index.vue'),
+    },
+    // 编辑新闻页
+    {
+      path: '/news/detail/:id',
       name: 'news-detail',
       meta: {
-        title: '新闻详情',
+        title: '编辑新闻',
         showMenu: false,
       },
       component: () => import('@/views/news/detail/index.vue'),
