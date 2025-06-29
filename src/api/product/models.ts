@@ -203,3 +203,10 @@ export const updateCurrentModel = (id:number,data:Request)=>{
       data,
     })
 }
+
+export const deleteModelApi = (id:number)=>{
+     return request({
+      url: `/products/models/${id}`,
+      method: 'delete',
+    })
+}

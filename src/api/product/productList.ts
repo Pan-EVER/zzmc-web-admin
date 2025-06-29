@@ -98,3 +98,10 @@ export const updateProducts = (
         method: 'get',
     })
   }
+
+export const deleteProductApi = (id:number)=>{
+    return request({
+        url: `/products/${id}`,
+        method: 'delete',
+    })
+  }

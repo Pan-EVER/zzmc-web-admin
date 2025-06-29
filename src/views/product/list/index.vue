@@ -5,7 +5,7 @@
         </div>
         <div class="table-container">
             <!-- :scroll="{ y: maxHeight }" :style="{ height: maxHeight +'px'}"-->
-            <a-table :columns="columns" :data-source="productData" rowKey="id" 
+            <a-table :columns="columns" :data-source="productData" rowKey="id"
                 @change="handleTableChange"  :loading="loading">
                 <template #bodyCell="{ column, record }">
                     <template v-if="column.dataIndex === 'operation'">
@@ -35,7 +35,7 @@ import { productListColumn, _operationButtons, modelColumns } from '../constant'
 import productMaintenance from '../component/productMaintenance.vue';
 import ModelMaintenance from '../component/ModelMaintenance.vue';
 
-import {getProductList } from '@/api/product/productList'
+import {deleteProductApi, getProductList } from '@/api/product/productList'
 
 import { useRequest } from 'vue-request'
 
@@ -64,6 +64,7 @@ const handleTableChange = (pagination, filters, sorter, { action, currentDataSou
 
 const handleButtonEvent = (prop: string, currentRowInfos: ContentItem) => {
     editFormInfo.value = currentRowInfos
+    console.log('row', currentRowInfos)
     switch (prop) {
         case 'edit':
             handleAddProduct(true)
@@ -72,6 +73,10 @@ const handleButtonEvent = (prop: string, currentRowInfos: ContentItem) => {
             modelMaintenanceRef.value?.showModel(currentRowInfos)
             break;
         case 'delete':
+            deleteProductApi(currentRowInfos.id).then(res=>{
+                fetchList()
+                message.success('删除成功')
+            })
             break;
         default:
             break;
