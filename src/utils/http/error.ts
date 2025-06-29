@@ -135,7 +135,8 @@ export function handleError(error: AxiosError<ErrorResponse>): never {
  */
 export function showError(error: HttpError, showMessage: boolean = true): void {
   if (showMessage) {
-    message.error(error.message)
+    const msg = (error.data as any)?.msg || error.message
+    message.error(msg)
   }
   // 记录错误日志
   console.error('[HTTP Error]', error.toLogData())

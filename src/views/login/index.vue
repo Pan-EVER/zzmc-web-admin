@@ -68,7 +68,6 @@ const handleSubmit = () => {
   // params.password = md5(password)
   // 校验用户名和密码
   const user = mockUserList.find(item => item.username === username && item.password === password)
-  console.log('user', user);
 
   if (!user) {
     message.error('用户名或密码错误！')

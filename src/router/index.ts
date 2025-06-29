@@ -41,7 +41,7 @@ const router = createRouter({
       path: '/product/:id',
       name: 'product-detail',
       meta: {
-        title: '产品详情',
+        title: '型号详情',
         showMenu: false,
       },
       component: () => import('@/views/product/detail/index.vue'),
