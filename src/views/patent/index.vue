@@ -178,14 +178,8 @@ const handleDelete = (record: Patent) => {
 </script>
 
 <style scoped>
-.patent-container {
-  padding: 16px;
-}
-
 .patent-header {
   margin-bottom: 16px;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .image-preview {

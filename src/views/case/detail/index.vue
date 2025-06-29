@@ -77,7 +77,7 @@
 
         <!-- 右侧配置 -->
         <a-col :span="8">
-          <a-form-item label="封面图片">
+          <a-form-item label="封面图片" name="coverImageUrl">
             <div class="cover-upload">
               <a-upload
                 v-model:file-list="fileList"
@@ -101,7 +101,7 @@
                 </div>
               </a-upload>
               <div class="upload-tips">
-                <p>建议尺寸：16:9</p>
+                <!-- <p>建议尺寸：16:9</p> -->
                 <p>支持格式：JPG、PNG</p>
                 <p>文件大小：不超过2MB</p>
               </div>

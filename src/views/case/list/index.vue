@@ -2,8 +2,8 @@
   <div class="case-list-container">
     <!-- 搜索和操作区域 -->
     <div class="search-section">
-      <a-row :gutter="16" align="middle">
-        <a-col :span="6">
+      <a-row>
+        <!--  <a-col :span="6">
           <a-input
             v-model:value="searchForm.keyword"
             placeholder="搜索案例标题"
@@ -30,9 +30,9 @@
         </a-col>
         <a-col :span="4">
           <a-button type="primary" @click="handleSearch"> <SearchOutlined /> 搜索 </a-button>
-        </a-col>
-        <a-col :span="4" :offset="4">
-          <a-button type="primary" @click="handleCreate"> <PlusOutlined /> 新增案例 </a-button>
+        </a-col> -->
+        <a-col>
+          <a-button type="primary" @click="handleCreate">新增案例</a-button>
         </a-col>
       </a-row>
     </div>
@@ -105,13 +105,8 @@ import { reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
-import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import {
-  getCasesApi,
-  deleteCaseApi,
-  CaseCategory,
-  type QueryCaseDto,
-} from '@/api/case'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { getCasesApi, deleteCaseApi, CaseCategory, type QueryCaseDto } from '@/api/case'
 
 const router = useRouter()
 
@@ -271,9 +266,6 @@ const handleDelete = (id: number) => {
 <style scoped>
 .search-section {
   margin-bottom: 16px;
-  padding: 16px;
-  background: #fafafa;
-  border-radius: 6px;
 }
 
 .no-image {
