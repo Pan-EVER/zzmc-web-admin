@@ -55,12 +55,22 @@ const router = createRouter({
       },
       component: () => import('@/views/case/list/index.vue'),
     },
-    // 案例详情页
+    // 新增案例页
     {
-      path: '/case/:id',
+      path: '/case/detail',
+      name: 'case-create',
+      meta: {
+        title: '新增案例',
+        showMenu: false,
+      },
+      component: () => import('@/views/case/detail/index.vue'),
+    },
+    // 编辑案例页
+    {
+      path: '/case/detail/:id',
       name: 'case-detail',
       meta: {
-        title: '案例详情',
+        title: '编辑案例',
         showMenu: false,
       },
       component: () => import('@/views/case/detail/index.vue'),
