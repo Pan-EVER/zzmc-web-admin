@@ -49,7 +49,7 @@ const detailForm = ref<Model>({
   name: '',
   sku: '',
   description: '',
-  productId: null,
+  modelId: null,
 })
 const activeKey = ref<string>(tabsList[0].key)
 const tabs = ref<tabItem[]>(tabsList)
@@ -65,7 +65,7 @@ const saveBasicInfo = async (otherData = {}) => {
       description: detailForm.value.description,
       ...otherData,
     }
-    await updateCurrentModel(detailForm.value.productId, params)
+    await updateCurrentModel(detailForm.value.modelId, params)
     loading.value = false
     message.success('操作成功！')
     _getModelDetailById()
@@ -109,12 +109,12 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
 const _getModelDetailById = async () => {
   const id = route.params.id
   const res = await getModelDetailById(id)
-  const { name, sku, description, productId } = res
+  const { name, sku, description, id:modelId } = res
   detailForm.value = {
     name,
     sku,
     description,
-    productId,
+    modelId,
   }
   tabs.value = tabs.value.map((item: any) => {
     for (const key in res) {

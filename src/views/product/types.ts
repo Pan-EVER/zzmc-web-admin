@@ -3,7 +3,7 @@ export interface Model {
   sku: string
   name: string
   description: string
-  productId?: number | null
+  modelId?: number | null
 }
 export interface Product {
   id: number

@@ -7,11 +7,9 @@ const rules = {
   description: [{ required: true, message: '请输入型号描述' }],
 }
 
-const props = defineProps({
-  formData: {
-    type: Object as () => Model,
-    default: () => ({}),
-  },
+const formData = defineModel<Model>('formData', {
+  type: Object as () => Model,
+  default: () => ({} as Model),
 })
 
 const formRef = ref()

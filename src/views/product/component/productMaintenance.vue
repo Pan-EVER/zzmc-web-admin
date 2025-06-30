@@ -128,6 +128,7 @@
                 v-model:value="item.title"
                 :auto-size="{ minRows: 2, maxRows: 5 }"
                 placeholder="请输入优点描述"
+                class="custom-textarea"
               />
             </a-form-item>
           </a-col>
@@ -441,5 +442,9 @@ defineExpose({ showModel })
 
 .advantage-title {
   margin-bottom: 0;
+}
+
+.custom-textarea{
+  min-width: 260px;
 }
 </style>
