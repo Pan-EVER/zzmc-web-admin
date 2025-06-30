@@ -1,4 +1,4 @@
 # 解决冲突再合并时如果有较多过往的文件的lint报错，可暂时注释下面的代码
-# pnpm run lint:lint-staged
+pnpm run lint:lint-staged
 
 # node_modules/.bin/lint-staged -c ./.husky/lintstagedrc.cjs
