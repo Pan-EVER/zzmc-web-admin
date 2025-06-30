@@ -6,12 +6,17 @@
       <h1 class="mb-0 ml-2 text-3xl font-bold">中轴精控-后台管理</h1>
     </div>
     <a-form layout="horizontal" :model="loginFormModel" @submit.prevent="handleSubmit">
-      <a-form-item>
-        <a-input v-model:value="loginFormModel.username" size="large" placeholder="请输入用户名" autocomplete="username">
+      <a-form-item name="username">
+        <a-input
+          v-model:value="loginFormModel.username"
+          size="large"
+          placeholder="请输入用户名"
+          autocomplete="username"
+        >
           <template #prefix><UserOutlined /></template>
         </a-input>
       </a-form-item>
-      <a-form-item>
+      <a-form-item name="password">
         <a-input
           v-model:value="loginFormModel.password"
           size="large"
@@ -32,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
@@ -47,27 +52,25 @@ const mockUserList = [
   {
     username: 'liuhao',
     password: 'zzmc2025',
-  }
+  },
 ]
 const loading = ref(false)
-const loginFormModel = ref({
+const loginFormModel = reactive({
   username: '',
   password: '',
-  verifyCode: '',
-  captchaId: '',
 })
 
 const handleSubmit = () => {
-  const { username, password } = loginFormModel.value
-  if (username.trim() == '' || password.trim() == '') {
+  const { username, password } = loginFormModel
+  if (username.trim() === '' || password.trim() === '') {
     return message.warning('用户名或密码不能为空！')
   }
   // message.loading('登录中...', 0)
   loading.value = true
-  console.log(loginFormModel.value)
+  // console.log(loginFormModel)
   // params.password = md5(password)
   // 校验用户名和密码
-  const user = mockUserList.find(item => item.username === username && item.password === password)
+  const user = mockUserList.find((item) => item.username === username && item.password === password)
 
   if (!user) {
     message.error('用户名或密码错误！')

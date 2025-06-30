@@ -57,10 +57,10 @@ defineEmits<{
 const router = useRouter()
 const route = useRoute()
 
-const username = ref('')
+const username = ref<string | null>(null)
 
 onMounted(() => {
-  username.value = JSON.parse(localStorage.getItem('username') || '--')
+  username.value = JSON.parse(localStorage.getItem('username') || 'null')
 })
 
 // 计算面包屑数据
@@ -91,13 +91,13 @@ const handleLogout = () => {
 
 <style scoped>
 .layout-header {
+  z-index: 1;
+  display: flex;
   padding: 0 24px 0 0;
   background: #fff;
-  display: flex;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  z-index: 1;
 }
 
 .header-left {
@@ -130,11 +130,11 @@ const handleLogout = () => {
 }
 
 .user-dropdown:hover {
-  background: rgba(0, 0, 0, 0.025);
+  background: rgb(0 0 0 / 2.5%);
 }
 
 .username {
   margin-left: 8px;
-  color: rgba(0, 0, 0, 0.85);
+  color: rgb(0 0 0 / 85%);
 }
 </style>
