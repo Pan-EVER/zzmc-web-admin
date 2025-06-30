@@ -3,8 +3,12 @@
   <a-form :model="localModel" :rules="rules" v-bind="componentAttrs" :class="className">
     <a-form-item v-for="field in fields" :key="field.name" :label="field.label" :name="field.name">
       <!-- v-on="field.events"  -->
-      <component :is="getComponent(field.type)" v-model:value="localModel[field.name]" v-bind="field.attrs"
-        v-if="!field.slot">
+      <component
+        :is="getComponent(field.type)"
+        v-model:value="localModel[field.name]"
+        v-bind="field.attrs"
+        v-if="!field.slot"
+      >
         <template #default>
           <template v-if="field.type === 'select'">
             <a-select-option v-for="opt in field.options" :key="opt.value" :value="opt.value">
@@ -25,71 +29,71 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
-import { Form, Input, Select, DatePicker, Button, Upload } from 'ant-design-vue';
+import { reactive, watch } from 'vue'
+import { Form, Input, Select, DatePicker, Button, Upload } from 'ant-design-vue'
 
 const props = defineProps<{
-  modelValue: Record<string, any>;
+  modelValue: Record<string, any>
   fields: Array<{
-    name: string;
-    label: string;
-    type: 'input' | 'select' | 'date';
-    options?: Array<{ label: string; value: any }>;
-    attrs?: Record<string, any>;
-  }>;
-  rules?: Array<Record<string, any>>;
-  componentAttrs?: Record<string, any>;
-  className?: string;
-  buttonContent?: string;
-}>();
+    name: string
+    label: string
+    type: 'input' | 'select' | 'date'
+    options?: Array<{ label: string; value: any }>
+    attrs?: Record<string, any>
+  }>
+  rules?: Array<Record<string, any>>
+  componentAttrs?: Record<string, any>
+  className?: string
+  buttonContent?: string
+}>()
 
-const emit = defineEmits(['update:modelValue', 'on-finish']);
+const emit = defineEmits(['update:modelValue', 'on-finish'])
 
 // 本地副本，响应父组件传入的数据
-const localModel = reactive({ ...props.modelValue });
+const localModel = reactive({ ...props.modelValue })
 
 // 同步父组件变更到本地
 watch(
   () => props.modelValue,
   (newVal) => {
-    Object.assign(localModel, newVal);
+    Object.assign(localModel, newVal)
   },
-  { deep: true }
-);
+  { deep: true },
+)
 
 // 本地变更时通知父组件
 watch(
   localModel,
   (newVal) => {
-    emit('update:modelValue', { ...newVal });
+    emit('update:modelValue', { ...newVal })
   },
-  { deep: true }
-);
+  { deep: true },
+)
 
 const getComponent = (type: string) => {
   switch (type) {
     case 'input':
-      return Input;
+      return Input
     case 'select':
-      return Select;
+      return Select
     case 'date':
-      return DatePicker;
+      return DatePicker
     // case 'img-upload':
     // case 'file-upload':
     //   return Upload;
     default:
-      return Input;
+      return Input
   }
 }
 
-const  handleFinish = () =>{
-  emit('on-finish', { ...localModel });
+const handleFinish = () => {
+  emit('on-finish', { ...localModel })
 }
 </script>
 
 <style scoped>
 .footer-button {
-  text-align: right;
   width: 100%;
+  text-align: right;
 }
 </style>
