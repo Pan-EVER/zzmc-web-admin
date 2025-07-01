@@ -49,7 +49,7 @@ import { productListColumn, _operationButtons, modelColumns } from '../constant'
 import productMaintenance from '../component/productMaintenance.vue'
 import ModelMaintenance from '../component/ModelMaintenance.vue'
 
-import { deleteProductApi, getProductList } from '@/api/product/productList'
+import { deleteProductApi, getProductList, getProductDetailById } from '@/api/product/productList'
 
 import { useRequest } from 'vue-request'
 
@@ -74,9 +74,12 @@ const handleAddProduct = (flag: boolean) => {
 
 const handleTableChange = (pagination, filters, sorter, { action, currentDataSource }) => {}
 
-const handleButtonEvent = (prop: string, currentRowInfos: ContentItem) => {
-  editFormInfo.value = currentRowInfos
-  console.log('row', currentRowInfos)
+const getRowDetail = async (record) => {
+  return await getProductDetailById(record.id)
+}
+const handleButtonEvent = async (prop: string, currentRowInfos: ContentItem) => {
+  const res = await getRowDetail(currentRowInfos)
+  editFormInfo.value = res
   switch (prop) {
     case 'edit':
       handleAddProduct(true)
