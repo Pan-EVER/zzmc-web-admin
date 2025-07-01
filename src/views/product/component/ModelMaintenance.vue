@@ -40,6 +40,7 @@ const newModelForm = reactive({
   sku: '',
   name: '',
   description: '',
+  coverImage: [],
 })
 const formRef = ref()
 
@@ -91,9 +92,21 @@ const handleSave = async () => {
   const isPass = await formRef.value.validate()
   if (isPass) {
     addLoading.value = true
+    console.log('newModelForm', newModelForm.coverImage, newModelForm.coverImage.length)
+
     await addModels(currentRowInfo.value.id, {
       ...newModelForm,
       productId: currentRowInfo.value.id,
+      coverImage:
+        newModelForm.coverImage.length > 0
+          ? {
+              id: newModelForm.coverImage[0]?.response?.id,
+              filename:
+                newModelForm.coverImage[0]?.response?.originalName ||
+                newModelForm.coverImage[0]?.response?.filename,
+              url: newModelForm.coverImage[0]?.response?.url,
+            }
+          : undefined,
     })
     addLoading.value = false
     newModelsVisible.value = false
@@ -133,7 +146,7 @@ defineExpose({ showModel })
     <a-modal
       v-model:open="newModelsVisible"
       title="新增型号"
-      width="500px"
+      width="800px"
       :ok-loading="addLoading"
       @ok="handleSave"
       @cancel="() => (newModelsVisible = false)"

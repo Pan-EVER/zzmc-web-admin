@@ -34,6 +34,9 @@
           placeholder="请输入文本"
         />
       </a-form-item>
+      <a-form-item label="排序权重" name="order">
+          <a-input-number id="inputNumber" v-model:value="form.order" :min="0" />
+      </a-form-item>
 
       <!-- 概览信息 -->
       <a-divider orientation="center" style="font-size: 16px">概览信息</a-divider>
@@ -186,6 +189,7 @@ const wrapperCol = { span: 0 }
 const rules = {
   name: [{ required: true, message: '请选择产品名称' }],
   description: [{ required: true, message: '请输入产品描述' }],
+  order: [{ required: true, message: '请输入排序权重' }],
 }
 
 interface UploadFile extends AntUploadFile {
@@ -197,6 +201,7 @@ type Contents = ContentItem[]
 type FormType = {
   name: undefined
   description: string
+  order:number,
   title: string
   titleDescriptions: string[]
   contentAreas: Contents
@@ -249,6 +254,7 @@ const form = reactive<FormType>({
   name: undefined,
   description: '',
   title: '',
+  order:0,
   titleDescriptions: ['', '', ''],
   contentAreas: [
     {
@@ -435,10 +441,11 @@ const handleOk = async () => {
   const isPass = await formRef.value.validate()
   if (isPass) {
     // await uploadImgs()
-    const { name, description, titleDescriptions, contentAreas, advantages } = form
+    const { name, description, titleDescriptions, contentAreas, advantages,order } = form
     const params = {
       name,
       description,
+      order,
       titleDescriptions,
       contentAreas: contentAreas
         .map((item) => {
