@@ -9,7 +9,7 @@ const rules = {
 
 const formData = defineModel<Model>('formData', {
   type: Object as () => Model,
-  default: () => ({} as Model),
+  // default: () => ({} as Model),
 })
 
 const formRef = ref()
