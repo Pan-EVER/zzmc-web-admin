@@ -4,6 +4,7 @@ export interface Model {
   name: string
   description: string
   modelId?: number | null
+  coverImage: UploadFile[]
 }
 export interface Product {
   id: number

@@ -50,6 +50,7 @@ const detailForm = ref<Model>({
   sku: '',
   description: '',
   modelId: null,
+  coverImage: [],
 })
 const activeKey = ref<string>(tabsList[0].key)
 const tabs = ref<tabItem[]>(tabsList)
@@ -63,6 +64,16 @@ const saveBasicInfo = async (otherData = {}) => {
       name: detailForm.value.name,
       sku: detailForm.value.sku,
       description: detailForm.value.description,
+      coverImage:
+        detailForm.value.coverImage.length > 0
+          ? {
+              id: detailForm.value.coverImage[0]?.response?.id,
+              filename:
+                detailForm.value.coverImage[0]?.response?.originalName ||
+                detailForm.value.coverImage[0]?.response?.filename,
+              url: detailForm.value.coverImage[0]?.response?.url,
+            }
+          : undefined,
       ...otherData,
     }
     await updateCurrentModel(detailForm.value.modelId, params)
@@ -95,11 +106,13 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
       }))
     } else if (key.endsWith('Image') && Array.isArray(value)) {
       const currentImg = value[0]
-      value = currentImg?{
-        id: currentImg?.response.id,
-        filename: currentImg?.response?.originalName,
-        url: currentImg?.response?.url,
-      }:undefined
+      value = currentImg
+        ? {
+            id: currentImg?.response.id,
+            filename: currentImg?.response?.originalName,
+            url: currentImg?.response?.url,
+          }
+        : undefined
     }
     otherData[key] = value
   })
@@ -109,12 +122,18 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
 const _getModelDetailById = async () => {
   const id = route.params.id
   const res = await getModelDetailById(id)
-  const { name, sku, description, id:modelId } = res
+  const { name, sku, description, id: modelId,coverImage } = res
   detailForm.value = {
     name,
     sku,
     description,
     modelId,
+    coverImage:coverImage.map(i=>{
+      return {
+        ...i,
+        response:{...i}
+      }
+    })
   }
   tabs.value = tabs.value.map((item: any) => {
     for (const key in res) {

@@ -10,6 +10,11 @@ const productListColumn = [
     ellipsis: true,
   },
   {
+    title: '排序权重',
+    dataIndex: 'order',
+    width: 200,
+  },
+  {
     title: '操作',
     dataIndex: 'operation',
     width: 300,
