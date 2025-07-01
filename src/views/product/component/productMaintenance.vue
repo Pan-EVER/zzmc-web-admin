@@ -2,7 +2,7 @@
   <a-modal
     v-model:open="visible"
     :title="isEdit ? '编辑产品' : '新建产品'"
-    width="1000px"
+    width="1050px"
     :ok-loading="loading"
     @ok="handleOk"
     @cancel="handleCancel"
@@ -20,7 +20,12 @@
       <!-- 基本信息 -->
       <a-divider orientation="center" style="font-size: 16px">基本信息</a-divider>
       <a-form-item label="产品名称" name="name">
-        <a-input v-model:value="form.name" placeholder="请输入产品名称" />
+        <!-- <a-input v-model:value="form.name" placeholder="请输入产品名称" /> -->
+        <a-select ref="select" v-model:value="form.name" placeholder="请选择产品名称">
+          <a-select-option :value="it.value" v-for="it in productNameOptions" :key="it.value">{{
+            it.value
+          }}</a-select-option>
+        </a-select>
       </a-form-item>
       <a-form-item label="产品描述" name="description">
         <a-textarea
@@ -61,23 +66,40 @@
         :label="`内容区域${index + 1}`"
         v-for="(item, index) in form.contentAreas"
         :key="index"
-        :name="['contentAreas', index, 'content']"
-        :rules="index === 0 ? [{ required: true, message: `内容区域${index + 1}不能为空` }] : []"
-        :validateTrigger="['onBlur']"
+        :name="['contentAreas', index]"
+        :rules="index === 0 ? contentAreasItemRules(index) : []"
+        :validateTrigger="['onBlur', 'onChange']"
       >
         <a-row :gutter="48">
-          <a-col :span="12">
-            <a-textarea
-              v-model:value="item.content"
-              :auto-size="{ minRows: 2, maxRows: 5 }"
-              placeholder="请输入文本"
-            />
+          <a-col :span="6">
+            <a-form-item
+              no-style
+              :required="index === 0"
+              :name="['contentAreas', index, 'title']"
+              :rules="index === 0 ? contentAreasItemRules(index) : []"
+            >
+              <a-input v-model:value="item.title" :placeholder="`请输入内容区域${index + 1}标题`" />
+            </a-form-item>
           </a-col>
-          <a-col :span="12" class="d-flex align-items-center">
+          <a-col :span="10">
+            <a-form-item
+              no-style
+              :required="index === 0"
+              :name="['contentAreas', index, 'content']"
+              :rules="index === 0 ? contentAreasItemRules(index) : []"
+            >
+              <a-textarea
+                v-model:value="item.content"
+                :auto-size="{ minRows: 2, maxRows: 5 }"
+                placeholder="请输入文本"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8" class="d-flex align-items-center">
             <!-- <span style="margin-right: 8px">内容区域{{ index + 1 }}图片</span> -->
             <!--  -->
             <a-form-item
-              :name="`advantages[${index}].title`"
+              :name="`contentAreas[${index}].image`"
               :label-col="labelWidth"
               :wrapper-col="{ span: 20 }"
               :label="`内容区域${index + 1}图片:`"
@@ -148,7 +170,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import type { UploadFile as AntUploadFile } from 'ant-design-vue'
@@ -162,7 +184,7 @@ const labelWidth = { style: { width: '100px' } }
 const wrapperCol = { span: 0 }
 
 const rules = {
-  name: [{ required: true, message: '请输入产品名称' }],
+  name: [{ required: true, message: '请选择产品名称' }],
   description: [{ required: true, message: '请输入产品描述' }],
 }
 
@@ -173,7 +195,7 @@ interface UploadFile extends AntUploadFile {
 type Contents = ContentItem[]
 
 type FormType = {
-  name: string
+  name: undefined
   description: string
   title: string
   titleDescriptions: string[]
@@ -201,22 +223,46 @@ const emit = defineEmits<{
 
 const visible = ref(false)
 
+const productNameOptions = reactive([
+  {
+    value: '圆形止推气浮轴承',
+  },
+  {
+    value: '矩形止推气浮轴承',
+  },
+  {
+    value: '径向气浮轴承',
+  },
+  {
+    value: '气浮运动台',
+  },
+  {
+    value: '气浮转台',
+  },
+  {
+    value: '气浮辊',
+  },
+])
+
 // 表单数据
-let form = reactive<FormType>({
-  name: '',
+const form = reactive<FormType>({
+  name: undefined,
   description: '',
   title: '',
   titleDescriptions: ['', '', ''],
   contentAreas: [
     {
+      title: '',
       content: '',
       image: [],
     },
     {
+      title: '',
       content: '',
       image: [],
     },
     {
+      title: '',
       content: '',
       image: [],
     },
@@ -243,6 +289,25 @@ const formRef = ref()
 // 图片预览相关
 const previewVisible = ref(false)
 const previewSrc = ref('')
+
+const contentAreasItemRules = computed(() => {
+  return (index: number) => {
+    return [
+      {
+        required: true,
+        message: '请输入内容区域内容',
+        validator: (_, val) => validateContentArea(val, index),
+      },
+    ]
+  }
+})
+const validateContentArea = (_, index) => {
+  const area = form.contentAreas[index]
+  if (!area.title && !area.content) {
+    return Promise.reject('标题和内容至少填写一项')
+  }
+  return Promise.resolve()
+}
 const initailDataFromProps = () => {
   const editInfo = JSON.parse(JSON.stringify(props.editInfo))
   const ensureArrayLength = (array, length, defaultValue, addImageField = false) => {
@@ -264,7 +329,7 @@ const initailDataFromProps = () => {
   editInfo.contentAreas = ensureArrayLength(
     editInfo.contentAreas || [],
     3,
-    () => ({ content: '', image: [] }),
+    () => ({ title: '', content: '', image: [] }),
     true,
   )
   editInfo.advantages = ensureArrayLength(
@@ -370,7 +435,7 @@ const handleOk = async () => {
   const isPass = await formRef.value.validate()
   if (isPass) {
     // await uploadImgs()
-    let { name, description, titleDescriptions, contentAreas, advantages } = form
+    const { name, description, titleDescriptions, contentAreas, advantages } = form
     const params = {
       name,
       description,
@@ -379,14 +444,17 @@ const handleOk = async () => {
         .map((item) => {
           return {
             ...item,
-            image: {
-              id: item.image[0]?.id,
-              filename: item.image[0]?.originalName || item.image[0]?.filename,
-              url: item.image[0]?.url,
-            },
+            image:
+              item.image.length > 0
+                ? {
+                    id: item.image[0]?.id,
+                    filename: item.image[0]?.originalName || item.image[0]?.filename,
+                    url: item.image[0]?.url,
+                  }
+                : undefined,
           }
         })
-        .filter((i) => i.content),
+        .filter((i) => i.content || i.title),
       advantages: advantages.filter((it) => it.title && it.description),
     }
 
@@ -412,7 +480,7 @@ const handleCancel = () => {
 
 const resetForm = () => {
   formRef.value.resetFields()
-  form.contentAreas = Array.from([1, 2, 3], (_) => ({ content: '', image: [] }))
+  form.contentAreas = Array.from([1, 2, 3], (_) => ({ title: '', content: '', image: [] }))
 }
 
 defineExpose({ showModel })
@@ -444,7 +512,7 @@ defineExpose({ showModel })
   margin-bottom: 0;
 }
 
-.custom-textarea{
+.custom-textarea {
   min-width: 260px;
 }
 </style>

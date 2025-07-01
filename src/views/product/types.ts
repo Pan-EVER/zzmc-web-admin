@@ -26,6 +26,7 @@ export interface FormState {
 }
 
 export interface ContentItem {
+  title: string
   content: string
   image: UploadFile[]
 }

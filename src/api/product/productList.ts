@@ -97,3 +97,11 @@ export const deleteProductApi = (id: number) => {
     method: 'delete',
   })
 }
+
+
+export const getProductDetailById = (id: number) => {
+  return request({
+    url: `/products/${id}`,
+    method: 'get',
+  })
+}

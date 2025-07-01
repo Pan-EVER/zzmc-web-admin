@@ -85,7 +85,7 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
       currentInfo.formValue[key] = newValue[key]
     }
   }
-  let otherData = {}
+  const otherData = {}
   Object.entries(currentInfo.formValue).forEach(([key, value]) => {
     if (key.endsWith('Attachments') && Array.isArray(value)) {
       value = value.map((i) => ({
@@ -95,11 +95,11 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
       }))
     } else if (key.endsWith('Image') && Array.isArray(value)) {
       const currentImg = value[0]
-      value = {
+      value = currentImg?{
         id: currentImg?.response.id,
-        filename: currentImg.response?.originalName,
-        url: currentImg.response?.url,
-      }
+        filename: currentImg?.response?.originalName,
+        url: currentImg?.response?.url,
+      }:undefined
     }
     otherData[key] = value
   })
