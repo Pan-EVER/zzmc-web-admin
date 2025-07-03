@@ -349,7 +349,7 @@ const initailDataFromProps = () => {
   editInfo.advantages = ensureArrayLength(
     editInfo.advantages || [],
     3,
-    () => ({ description: '', title: [] }),
+    () => ({ description: '', title: '' }),
     false,
   )
   editInfo.titleDescriptions = ensureArrayLength(
@@ -406,7 +406,13 @@ const uploadImgs = async () => {
 }
 
 const handleOk = async () => {
-  const isPass = await formRef.value.validate()
+  let isPass:any;
+  try {
+     isPass =  await formRef.value.validate()
+  } catch (error) {
+      isPass = false
+  }
+
   if (isPass) {
     // await uploadImgs()
     const { name, title, description, titleDescriptions, contentAreas, advantages, order } = form
