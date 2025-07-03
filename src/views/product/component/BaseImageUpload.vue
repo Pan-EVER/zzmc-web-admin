@@ -23,13 +23,13 @@ const props = defineProps({
     type: String,
     default: 'image/jpeg,image/png,image/gif,image/webp',
   },
-  showUploadButton:{
-    type:Boolean,
-    default:true
-  }
+  controlUploadDisplay: {
+    type: Function,
+    default: () => true,
+  },
 })
 
-const emit = defineEmits(['on-change','on-remove'])
+const emit = defineEmits(['on-change', 'on-remove'])
 
 const fileList = ref<UploadFile[]>([])
 const previewVisible = ref(false)
@@ -123,7 +123,7 @@ const handleChange = (info: UploadChangeParam) => {
 // 移除图片
 const onRemove = (file: UploadFile) => {
   fileList.value = fileList.value.filter((item) => item.uid !== file.uid)
-  emit('on-remove', fileList.value)
+  emit('on-change', fileList.value)
 }
 
 const handlePreview = async (file: UploadFile) => {
@@ -171,7 +171,7 @@ const handleFileChange = async (info: any) => {
       :accept="props.accept"
       :disabled="uploading"
     >
-      <div>
+      <div v-if="fileList.length < maxCount">
         <PlusOutlined />
         <div style="margin-top: 8px">上传</div>
       </div>
