@@ -120,14 +120,14 @@
             <a-button> <upload-outlined /> 选择文件 </a-button>
           </a-upload>
         </a-form-item>
-        <a-form-item label="排序" name="sortOrder">
+        <!-- <a-form-item label="排序" name="sortOrder">
           <a-input-number
             v-model:value="fileForm.sortOrder"
             :min="0"
             :max="9999"
             style="width: 100%"
           />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item label="状态" name="isEnabled">
           <a-switch v-model:checked="fileForm.isEnabled" />
         </a-form-item>
@@ -155,14 +155,14 @@
         <a-form-item label="分类名称" name="name">
           <a-input v-model:value="categoryForm.name" placeholder="请输入分类名称" />
         </a-form-item>
-        <a-form-item label="排序" name="sortOrder">
+        <!-- <a-form-item label="排序" name="sortOrder">
           <a-input-number
             v-model:value="categoryForm.sortOrder"
             :min="0"
             :max="9999"
             style="width: 100%"
           />
-        </a-form-item>
+        </a-form-item> -->
         <a-form-item label="描述" name="description">
           <a-textarea
             v-model:value="categoryForm.description"
@@ -275,6 +275,9 @@ const fileColumns = ref<TableColumnsType>([
     dataIndex: 'createdAt',
     key: 'createdAt',
     width: '15%',
+    customRender: ({ text }: { text: string }) => {
+      return new Date(text).toLocaleString('zh-CN')
+    },
   },
   {
     title: '状态',
