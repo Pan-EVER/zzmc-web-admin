@@ -128,12 +128,14 @@ const _getModelDetailById = async () => {
     sku,
     description,
     modelId,
-    coverImage: [
-      {
-        ...coverImage,
-        response: { ...coverImage },
-      },
-    ],
+    coverImage: coverImage
+      ? [
+          {
+            ...coverImage,
+            response: { ...coverImage },
+          },
+        ]
+      : undefined,
   }
   tabs.value = tabs.value.map((item: any) => {
     for (const key in res) {
