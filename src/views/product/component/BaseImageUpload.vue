@@ -23,9 +23,13 @@ const props = defineProps({
     type: String,
     default: 'image/jpeg,image/png,image/gif,image/webp',
   },
+  showUploadButton:{
+    type:Boolean,
+    default:true
+  }
 })
 
-const emit = defineEmits(['on-change'])
+const emit = defineEmits(['on-change','on-remove'])
 
 const fileList = ref<UploadFile[]>([])
 const previewVisible = ref(false)
@@ -119,7 +123,7 @@ const handleChange = (info: UploadChangeParam) => {
 // 移除图片
 const onRemove = (file: UploadFile) => {
   fileList.value = fileList.value.filter((item) => item.uid !== file.uid)
-  emit('on-change', fileList.value)
+  emit('on-remove', fileList.value)
 }
 
 const handlePreview = async (file: UploadFile) => {
