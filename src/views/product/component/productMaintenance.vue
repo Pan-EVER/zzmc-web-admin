@@ -441,9 +441,10 @@ const handleOk = async () => {
   const isPass = await formRef.value.validate()
   if (isPass) {
     // await uploadImgs()
-    const { name, description, titleDescriptions, contentAreas, advantages,order } = form
+    const { name, title, description, titleDescriptions, contentAreas, advantages,order } = form
     const params = {
       name,
+      title,
       description,
       order,
       titleDescriptions,
