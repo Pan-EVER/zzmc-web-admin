@@ -122,18 +122,18 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
 const _getModelDetailById = async () => {
   const id = route.params.id
   const res = await getModelDetailById(id)
-  const { name, sku, description, id: modelId,coverImage } = res
+  const { name, sku, description, id: modelId, coverImage } = res
   detailForm.value = {
     name,
     sku,
     description,
     modelId,
-    coverImage:coverImage.map(i=>{
-      return {
-        ...i,
-        response:{...i}
-      }
-    })
+    coverImage: [
+      {
+        ...coverImage,
+        response: { ...coverImage },
+      },
+    ],
   }
   tabs.value = tabs.value.map((item: any) => {
     for (const key in res) {
