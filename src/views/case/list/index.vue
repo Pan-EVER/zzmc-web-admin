@@ -194,10 +194,6 @@ const caseListRequest = useRequest(
   },
 )
 
-watchEffect(() => {
-  console.log('caseListRequest', caseListRequest.data.value?.data)
-})
-
 // 删除案例
 const deleteRequest = useRequest(
   async (id: number) => {

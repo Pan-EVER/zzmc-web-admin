@@ -1,6 +1,6 @@
 <template>
   <div class="case-detail-container">
-    <a-row justify="end">
+    <a-row justify="end" class="action-row">
       <a-col>
         <a-space>
           <a-button @click="handleBack">返回</a-button>
@@ -20,93 +20,79 @@
     >
       <a-row :gutter="24">
         <!-- 左侧表单 -->
-        <a-col :span="16">
-          <a-form-item label="案例标题" name="title">
-            <a-input
-              v-model:value="formData.title"
-              placeholder="请输入案例标题"
-              :maxlength="100"
-              show-count
-            />
-          </a-form-item>
+        <a-col :span="16" class="basic-info-col">
+          <a-card title="基本信息">
+            <a-form-item label="案例标题" name="title">
+              <a-input
+                v-model:value="formData.title"
+                placeholder="请输入案例标题"
+                :maxlength="100"
+                show-count
+              />
+            </a-form-item>
 
-          <a-form-item label="案例分类" name="category">
-            <a-select
-              v-model:value="formData.category"
-              placeholder="请选择案例分类"
-              style="width: 100%"
-            >
-              <a-select-option
-                v-for="(label, value) in categoryOptions"
-                :key="value"
-                :value="value"
+            <a-form-item label="案例分类" name="category">
+              <a-select
+                v-model:value="formData.category"
+                placeholder="请选择案例分类"
+                style="width: 100%"
               >
-                {{ label }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
+                <a-select-option
+                  v-for="(label, value) in categoryOptions"
+                  :key="value"
+                  :value="value"
+                >
+                  {{ label }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
 
-          <a-form-item label="案例概述" name="summary">
-            <a-textarea
-              v-model:value="formData.summary"
-              placeholder="请输入案例概述"
-              :rows="4"
-              :maxlength="500"
-              show-count
-            />
-          </a-form-item>
-
-          <a-form-item label="案例内容" name="content">
-            <div class="editor-container">
-              <Toolbar
-                :editor="editorRef"
-                :defaultConfig="toolbarConfig"
-                mode="default"
-                style="border-bottom: 1px solid #ccc"
+            <a-form-item label="案例概述" name="summary">
+              <a-textarea
+                v-model:value="formData.summary"
+                placeholder="请输入案例概述"
+                :rows="4"
+                :maxlength="500"
+                show-count
               />
-              <Editor
-                v-model="formData.content"
-                :defaultConfig="editorConfig"
-                mode="default"
-                style="height: 400px; overflow-y: hidden"
-                @onCreated="handleCreated"
-              />
-            </div>
-          </a-form-item>
+            </a-form-item>
+          </a-card>
         </a-col>
 
         <!-- 右侧配置 -->
         <a-col :span="8">
-          <a-form-item label="封面图片" name="coverImageUrl">
-            <div class="cover-upload">
-              <a-upload
-                v-model:file-list="fileList"
-                name="file"
-                list-type="picture-card"
-                class="cover-uploader"
-                :show-upload-list="false"
-                :before-upload="beforeUpload"
-                :custom-request="handleUpload"
-              >
-                <div v-if="formData.coverImage?.url">
-                  <img
-                    :src="formData.coverImage.url"
-                    alt="cover"
-                    style="width: 100%; height: 100%; object-fit: cover"
-                  />
+          <a-card title="封面设置">
+            <a-form-item label="封面图片" name="coverImageUrl">
+              <div class="cover-upload">
+                <a-upload
+                  v-model:file-list="fileList"
+                  name="file"
+                  list-type="picture-card"
+                  class="cover-uploader"
+                  :show-upload-list="false"
+                  :before-upload="beforeUpload"
+                  :custom-request="handleUpload"
+                >
+                  <div v-if="formData.coverImage?.url">
+                    <img
+                      :src="formData.coverImage.url"
+                      alt="cover"
+                      style="width: 100%; height: 100%; object-fit: cover"
+                    />
+                  </div>
+                  <div v-else class="upload-placeholder">
+                    <PlusOutlined />
+                    <div style="margin-top: 8px">上传封面</div>
+                  </div>
+                </a-upload>
+                <div class="upload-tips">
+                  <!-- <p>建议尺寸：16:9</p> -->
+                  <p>支持格式：JPG、PNG</p>
+                  <p>文件大小：不超过2MB</p>
                 </div>
-                <div v-else class="upload-placeholder">
-                  <PlusOutlined />
-                  <div style="margin-top: 8px">上传封面</div>
-                </div>
-              </a-upload>
-              <div class="upload-tips">
-                <!-- <p>建议尺寸：16:9</p> -->
-                <p>支持格式：JPG、PNG</p>
-                <p>文件大小：不超过2MB</p>
               </div>
-            </div>
-          </a-form-item>
+            </a-form-item>
+          </a-card>
 
           <!-- <a-form-item label="显示设置">
             <a-space direction="vertical" style="width: 100%">
@@ -127,20 +113,25 @@
             </a-space>
           </a-form-item> -->
         </a-col>
+        <a-col :span="24">
+          <a-card title="案例内容">
+            <a-form-item name="content">
+              <RichTextEditor v-model:content="formData.content" />
+            </a-form-item>
+          </a-card>
+        </a-col>
       </a-row>
     </a-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onBeforeUnmount, shallowRef } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message, type FormInstance } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import '@wangeditor/editor/dist/css/style.css'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { type IDomEditor, type IEditorConfig, type IToolbarConfig } from '@wangeditor/editor'
+import RichTextEditor from '@/components/RichTextEditor/index.vue'
 import {
   getCaseDetailApi,
   createCaseApi,
@@ -154,9 +145,6 @@ import { uploadFile } from '@/api/upload'
 
 const router = useRouter()
 const route = useRoute()
-
-// 编辑器实例
-const editorRef = shallowRef<IDomEditor>()
 
 // 表单引用
 const formRef = ref<FormInstance>()
@@ -201,30 +189,6 @@ const formRules = {
     { min: 10, max: 500, message: '概述长度在10-500个字符', trigger: 'blur' },
   ],
   content: [{ required: true, message: '请输入案例内容', trigger: 'blur' }],
-}
-
-// 编辑器配置
-const toolbarConfig: Partial<IToolbarConfig> = {
-  excludeKeys: ['uploadVideo'], // 排除上传视频功能
-}
-
-const editorConfig: Partial<IEditorConfig> = {
-  placeholder: '请输入案例内容...',
-  MENU_CONF: {
-    uploadImage: {
-      // 自定义图片上传
-      customUpload: async (file: File, insertFn: Function) => {
-        try {
-          const result = await uploadFile(file)
-          insertFn(result.url, result.originalName, '')
-          message.success('图片上传成功')
-        } catch (error) {
-          message.error('图片上传失败')
-          console.error('图片上传失败:', error)
-        }
-      },
-    },
-  },
 }
 
 // 获取案例详情
@@ -288,11 +252,6 @@ const submitRequest = useRequest(
   },
 )
 
-// 编辑器创建回调
-const handleCreated = (editor: IDomEditor) => {
-  editorRef.value = editor
-}
-
 // 文件上传前验证
 const beforeUpload = (file: File) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
@@ -344,25 +303,18 @@ onMounted(() => {
     getCaseDetailRequest.run(caseId.value)
   }
 })
-
-// 组件销毁时销毁编辑器
-onBeforeUnmount(() => {
-  const editor = editorRef.value
-  if (editor == null) return
-  editor.destroy()
-})
 </script>
 
 <style scoped>
 .case-detail-container {
   padding: 24px;
 }
-
-.editor-container {
-  border: 1px solid #ccc;
-  z-index: 100;
+.action-row {
+  margin-bottom: 16px;
 }
-
+.basic-info-col {
+  margin-bottom: 16px;
+}
 .cover-upload {
   text-align: center;
 }
@@ -394,13 +346,5 @@ onBeforeUnmount(() => {
 
 .upload-tips p {
   margin: 2px 0;
-}
-
-:deep(.w-e-text-container) {
-  height: 400px !important;
-}
-
-:deep(.w-e-scroll) {
-  height: 400px !important;
 }
 </style>

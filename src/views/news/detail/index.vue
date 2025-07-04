@@ -42,29 +42,7 @@
               </a-select>
             </a-form-item>
           </a-card>
-
-          <!-- 新闻内容 -->
-          <a-card title="新闻内容">
-            <a-form-item name="content">
-              <div ref="editorRef" style="border: 1px solid #d9d9d9; border-radius: 6px">
-                <Toolbar
-                  style="border-bottom: 1px solid #ccc"
-                  :editor="editorInstance"
-                  :defaultConfig="toolbarConfig"
-                  mode="default"
-                />
-                <Editor
-                  style="height: 500px; overflow-y: hidden"
-                  v-model="formData.content"
-                  :defaultConfig="editorConfig"
-                  mode="default"
-                  @onCreated="handleCreated"
-                />
-              </div>
-            </a-form-item>
-          </a-card>
         </a-col>
-
         <a-col :span="8">
           <!-- 封面设置 -->
           <a-card title="封面设置" style="margin-bottom: 16px">
@@ -99,7 +77,6 @@
               </div>
             </a-form-item>
           </a-card>
-
           <!-- 发布设置 -->
           <!-- <a-card title="发布设置">
             <a-form-item label="发布状态" name="isPublished">
@@ -121,6 +98,14 @@
             </a-form-item>
           </a-card> -->
         </a-col>
+        <a-col :span="24">
+          <!-- 新闻内容 -->
+          <a-card title="新闻内容">
+            <a-form-item name="content">
+              <RichTextEditor v-model:content="formData.content" />
+            </a-form-item>
+          </a-card>
+        </a-col>
       </a-row>
     </a-form>
 
@@ -137,8 +122,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
 import { PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { type IDomEditor, type IEditorConfig, type IToolbarConfig } from '@wangeditor/editor'
+import RichTextEditor from '@/components/RichTextEditor/index.vue'
 import {
   createNewsApi,
   updateNewsApi,
@@ -146,9 +130,6 @@ import {
   type CreateNewsDto,
   type UpdateNewsDto,
 } from '@/api/news'
-
-// 引入 wangeditor 样式
-import '@wangeditor/editor/dist/css/style.css'
 import { uploadFile } from '@/api/upload'
 
 const router = useRouter()
@@ -160,10 +141,6 @@ const newsId = computed(() => Number(route.params.id))
 
 // 表单引用
 const formRef = ref()
-
-// 编辑器相关
-const editorRef = ref()
-const editorInstance = ref<IDomEditor | null>(null)
 
 // 封面预览
 const previewVisible = ref(false)
@@ -188,7 +165,7 @@ const formData = reactive<FormData>({
   coverImageUrl: '',
   coverImageId: undefined,
   isPublished: true,
-  publishedAt: null,
+  // publishedAt: null,
 })
 
 // 表单验证规则
@@ -206,33 +183,6 @@ const formRules = {
     { min: 50, message: '内容不能少于50个字符', trigger: 'blur' },
   ],
   category: [{ required: true, message: '请选择新闻分类', trigger: 'change' }],
-}
-
-// 编辑器配置
-const toolbarConfig: Partial<IToolbarConfig> = {
-  excludeKeys: [
-    'uploadVideo', // 排除上传视频功能
-    'insertVideo', // 排除插入视频功能
-  ],
-}
-
-const editorConfig: Partial<IEditorConfig> = {
-  placeholder: '请输入新闻内容...',
-  MENU_CONF: {
-    uploadImage: {
-      // 自定义图片上传
-      customUpload: async (file: File, insertFn: Function) => {
-        try {
-          const result = await uploadFile(file)
-          insertFn(result.url, result.originalName, '')
-          message.success('图片上传成功')
-        } catch (error) {
-          message.error('图片上传失败')
-          console.error('图片上传失败:', error)
-        }
-      },
-    },
-  },
 }
 
 // 获取新闻详情（编辑模式）
@@ -300,10 +250,6 @@ const handleSubmit = async () => {
   }
 }
 
-const handleCreated = (editor: IDomEditor) => {
-  editorInstance.value = editor
-}
-
 // 封面上传相关
 const beforeUpload = (file: File) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
@@ -344,12 +290,6 @@ const removeCover = () => {
 onMounted(() => {
   if (isEdit.value) {
     newsDetailRequest.run()
-  }
-})
-
-onBeforeUnmount(() => {
-  if (editorInstance.value) {
-    editorInstance.value.destroy()
   }
 })
 </script>

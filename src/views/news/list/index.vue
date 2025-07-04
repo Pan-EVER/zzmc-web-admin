@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
@@ -186,25 +186,6 @@ const handleDelete = (id: number) => {
   deleteNewsRequest.run(id)
 }
 
-const handleToggleStatus = (id: number, checked: boolean) => {
-  toggleStatusRequest.run(id)
-}
-
-const handleSearch = () => {
-  pagination.page = 1
-  newsListRequest.refresh()
-}
-
-const handleReset = () => {
-  Object.assign(searchForm, {
-    category: undefined,
-    isPublished: undefined,
-    keyword: '',
-  })
-  pagination.page = 1
-  newsListRequest.refresh()
-}
-
 const handlePageChange = (page: number) => {
   pagination.page = page
 }
@@ -240,11 +221,6 @@ const formatDate = (dateString: string) => {
     minute: '2-digit',
   })
 }
-
-// 初始化
-onMounted(() => {
-  newsListRequest.run()
-})
 </script>
 
 <style scoped>
