@@ -23,9 +23,13 @@ const props = defineProps({
     type: String,
     default: 'image/jpeg,image/png,image/gif,image/webp',
   },
+  controlUploadDisplay: {
+    type: Function,
+    default: () => true,
+  },
 })
 
-const emit = defineEmits(['on-change'])
+const emit = defineEmits(['on-change', 'on-remove'])
 
 const fileList = ref<UploadFile[]>([])
 const previewVisible = ref(false)
@@ -167,7 +171,7 @@ const handleFileChange = async (info: any) => {
       :accept="props.accept"
       :disabled="uploading"
     >
-      <div>
+      <div v-if="fileList.length < maxCount">
         <PlusOutlined />
         <div style="margin-top: 8px">上传</div>
       </div>

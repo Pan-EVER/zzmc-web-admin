@@ -1,16 +1,9 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import type { Model } from '../types'
 import type { UploadFile as AntUploadFile } from 'ant-design-vue'
 
 import BaseImageUpload from '../component/BaseImageUpload.vue'
-
-const rules = {
-  sku: [{ required: true, message: '请输入型号SKU' }],
-  name: [{ required: true, message: '请输入型号名称' }],
-  description: [{ required: true, message: '请输入型号描述' }],
-  coverImage: [{ required: true, message: '请上传型号封面图' }],
-}
 
 interface UploadFile extends AntUploadFile {
   imageId?: string
@@ -23,8 +16,20 @@ const formData = defineModel<Model>('formData', {
 
 const formRef = ref()
 
+const rules = {
+  sku: [{ required: true, message: '请输入型号SKU' }],
+  name: [{ required: true, message: '请输入型号名称' }],
+  description: [{ required: true, message: '请输入型号描述' }],
+  coverImage: [{ required: true, message: '请上传型号封面图' }],
+}
+
 const validate = async () => {
-  return await formRef.value.validate()
+  try {
+    const isPass = await formRef.value.validate()
+    return isPass
+  } catch (error) {
+    Promise.reject(false)
+  }
 }
 
 const resetFields = async () => {
@@ -33,6 +38,8 @@ const resetFields = async () => {
 
 const handleImageChange = (list: Array<UploadFile>) => {
   formData.value.coverImage = list
+  if (list.length != 0) formRef.value.clearValidate('coverImage')
+  else formRef.value.validateFields('coverImage')
 }
 
 defineExpose({
@@ -43,7 +50,7 @@ defineExpose({
 
 <template>
   <a-form :model="formData" layout="horizontal" :rules="rules" ref="formRef" v-bind="$attrs">
-    <a-row gutter="24">
+    <a-row :gutter="24">
       <!-- 左侧：三个输入项 -->
       <a-col :span="14">
         <a-form-item

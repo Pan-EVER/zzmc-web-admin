@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref, h } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
@@ -88,9 +88,22 @@ const handleButtonEvent = async (prop: string, currentRowInfos: ContentItem) => 
       modelMaintenanceRef.value?.showModel(currentRowInfos)
       break
     case 'delete':
-      deleteProductApi(currentRowInfos.id).then((res) => {
-        fetchList()
-        message.success('删除成功')
+      Modal.confirm({
+        title: '确认删除',
+        icon: () => h(ExclamationCircleOutlined),
+        content: '确定要删除该产品吗？此操作不可恢复。',
+        okText: '确认',
+        cancelText: '取消',
+        async onOk() {
+          try {
+            await deleteProductApi(currentRowInfos.id)
+            fetchList()
+            message.success('删除成功')
+          } catch (error) {
+            console.error('删除失败:', error)
+            message.error('删除失败')
+          }
+        },
       })
       break
     default:

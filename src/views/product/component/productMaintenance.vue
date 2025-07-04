@@ -108,7 +108,7 @@
               :label="`内容区域${index + 1}图片:`"
               no-style
             >
-              <a-upload
+              <!-- <a-upload
                 list-type="picture-card"
                 v-model:fileList="item.image"
                 :before-upload="(file: UploadFile) => beforeUpload(file)"
@@ -117,12 +117,18 @@
                 :maxCount="1"
                 @preview="(file: UploadFile) => handlePreview(file)"
                 @change="(file: UploadFile) => handleFileChange(file, item)"
+                :custom-request="(options:any)=>customRequest(options,item)"
               >
                 <div>
                   <PlusOutlined />
                   <div style="margin-top: 8px">上传</div>
                 </div>
-              </a-upload>
+              </a-upload> -->
+              <BaseImageUpload
+                :imageList="item.image"
+                :maxCount="1"
+                @on-change="(file) => handleImageChange(file,item)"
+              />
             </a-form-item>
           </a-col>
         </a-row>
@@ -183,6 +189,8 @@ import { uploadFile } from '@/api/upload'
 
 import { addProducts, updateProducts } from '@/api/product/productList'
 
+import BaseImageUpload from '../component/BaseImageUpload.vue'
+
 const labelWidth = { style: { width: '100px' } }
 const wrapperCol = { span: 0 }
 
@@ -201,7 +209,7 @@ type Contents = ContentItem[]
 type FormType = {
   name: undefined
   description: string
-  order:number,
+  order: number
   title: string
   titleDescriptions: string[]
   contentAreas: Contents
@@ -254,7 +262,7 @@ const form = reactive<FormType>({
   name: undefined,
   description: '',
   title: '',
-  order:0,
+  order: 0,
   titleDescriptions: ['', '', ''],
   contentAreas: [
     {
@@ -323,7 +331,7 @@ const initailDataFromProps = () => {
         if (addImageField && typeof currentOne === 'object') {
           return {
             ...currentOne,
-            image: currentOne.image ? [{ ...currentOne.image }] : [],
+            image: currentOne.image ? [{ ...currentOne.image,response:{...currentOne.image} }] : [],
           }
         }
         return currentOne
@@ -341,7 +349,7 @@ const initailDataFromProps = () => {
   editInfo.advantages = ensureArrayLength(
     editInfo.advantages || [],
     3,
-    () => ({ description: '', title: [] }),
+    () => ({ description: '', title: '' }),
     false,
   )
   editInfo.titleDescriptions = ensureArrayLength(
@@ -369,50 +377,10 @@ const showModel = () => {
   })
 }
 
-const beforeUpload = (file: UploadFile) => {
-  // 限制大小或格式
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-  if (!isJpgOrPng) {
-    message.error('仅支持 JPG/PNG 格式！')
-    return false
-  }
-  return false
+const handleImageChange = (list: Array<UploadFile>, currentInfo) => {
+  currentInfo.image = list
 }
 
-const onRemove = (file: UploadFile, currentInfo: ContentItem) => {
-  currentInfo.image = currentInfo.image.filter((item) => item.uid !== file.uid)
-}
-
-const handleFileChange = async (info: any, currentInfo: ContentItem) => {
-  const res = await uploadFile(info.file)
-  currentInfo.image = currentInfo.image.map((item) => {
-    if (item.uid === info.file?.uid) {
-      item = {
-        ...item,
-        ...res,
-      }
-    }
-    return item
-  })
-}
-
-const handlePreview = async (file: any) => {
-  if (!file.url && !file.preview) {
-    file.preview = await getBase64(file.originFileObj)
-  }
-  previewSrc.value = file.url || file.preview
-  previewVisible.value = true
-}
-
-// 转换为base64
-const getBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = (error) => reject(error)
-  })
-}
 
 // // 控制 Loading
 const loading = ref(false)
@@ -438,10 +406,16 @@ const uploadImgs = async () => {
 }
 
 const handleOk = async () => {
-  const isPass = await formRef.value.validate()
+  let isPass:any;
+  try {
+     isPass =  await formRef.value.validate()
+  } catch (error) {
+      isPass = false
+  }
+
   if (isPass) {
     // await uploadImgs()
-    const { name, title, description, titleDescriptions, contentAreas, advantages,order } = form
+    const { name, title, description, titleDescriptions, contentAreas, advantages, order } = form
     const params = {
       name,
       title,
@@ -455,14 +429,14 @@ const handleOk = async () => {
             image:
               item.image.length > 0
                 ? {
-                    id: item.image[0]?.id,
-                    filename: item.image[0]?.originalName || item.image[0]?.filename,
-                    url: item.image[0]?.url,
+                    id: item.image[0]?.response?.id,
+                    filename: item.image[0]?.response?.originalName || item.image[0]?.response?.filename,
+                    url: item.image[0]?.response?.url,
                   }
                 : undefined,
           }
         })
-        .filter((i) => i.content || i.title),
+        .filter((i) => i.content || i.title||i.image!==undefined),
       advantages: advantages.filter((it) => it.title && it.description),
     }
 
