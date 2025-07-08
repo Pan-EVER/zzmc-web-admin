@@ -307,6 +307,7 @@ const tabsList = [
         attrs: {
           placeholder: '请输入安装说明',
         },
+        slot: true,
       },
       {
         label: '上传安装图片',

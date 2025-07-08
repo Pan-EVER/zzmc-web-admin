@@ -3,7 +3,8 @@ import { nextTick, reactive, ref, h } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
-import router from '@/router'
+// import router from '@/router'
+import { useRouter } from 'vue-router'
 
 import { modelColumns } from '../constant'
 import type { Model } from '../types'
@@ -12,6 +13,8 @@ import { getModelsByProductId } from '@/api/product/productList'
 import { addModels, deleteModelApi } from '@/api/product/models'
 
 import BasicModelInformation from './BasicModelInformation.vue'
+
+const router = useRouter()
 
 const rules = {
   sku: [{ required: true, message: '请输入型号SKU' }],
