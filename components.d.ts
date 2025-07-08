@@ -62,6 +62,7 @@ declare module 'vue' {
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     PageContainer: typeof import('./src/components/PageContainer/PageContainer.vue')['default']
+    RichTextEditor: typeof import('./src/components/RichTextEditor/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

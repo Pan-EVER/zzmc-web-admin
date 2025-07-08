@@ -202,6 +202,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.specificationAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
             <template #installationImage-img-upload="props">
@@ -215,6 +216,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.installationAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
             <template #performanceImage-img-upload="props">
@@ -228,6 +230,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.performanceAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
             <template #engineeringImage-img-upload="props">
@@ -241,6 +244,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.engineeringAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
           </FormGenerator>
