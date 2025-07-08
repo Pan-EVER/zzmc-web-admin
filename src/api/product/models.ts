@@ -8,11 +8,11 @@ export interface Request {
    */
   ballSocketSize?: string
   /**
-   * 轴承高度
+   * 高度
    */
   bearingHeight?: string
   /**
-   * 轴承尺寸
+   * 尺寸
    */
   bearingSize?: string
   /**
@@ -20,11 +20,11 @@ export interface Request {
    */
   bearingSurfaceSize?: string
   /**
-   * 轴承重量
+   * 重量
    */
   bearingWeight?: string
   /**
-   * 公共导向面
+   * 导轨面
    */
   commonGuideSurface?: string
   /**
@@ -56,7 +56,7 @@ export interface Request {
    */
   idealLoad?: string
   /**
-   * 输入压力
+   * 进气压力
    */
   inputPressure?: string
   /**
@@ -76,7 +76,7 @@ export interface Request {
    */
   installationTitle?: string
   /**
-   * 最大允许压力供应
+   * 最大允许进气压力
    */
   maxAllowablePressureSupply?: string
   /**
@@ -88,7 +88,7 @@ export interface Request {
    */
   name: string
   /**
-   * 无负载流
+   * 空载流量
    */
   noLoadFlow?: string
   /**
@@ -108,11 +108,11 @@ export interface Request {
    */
   performanceTitle?: string
   /**
-   * 多孔介质材料
+   * 节流器材料
    */
   porousMediumMaterial?: string
   /**
-   * 压力输口螺纹
+   * 进气口螺纹
    */
   pressureInputThread?: string
   /**
@@ -144,11 +144,11 @@ export interface Request {
    */
   stiffness?: string
   /**
-   * 门槛高度
+   * 悬浮高度
    */
   thresholdHeight?: string
   /**
-   * 可行的压力范围
+   * 可行的进气压力范围
    */
   viablePressureRange?: string
   [property: string]: any
