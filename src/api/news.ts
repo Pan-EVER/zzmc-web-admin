@@ -5,7 +5,7 @@ import { request } from '@/utils'
 // 类型定义
 export enum NewsCategory {
   COMPANY = 'company', // 公司新闻
-  INDUSTRY = 'industry', // 行业资讯
+  BLOG = 'industry', // 行业资讯
 }
 
 export interface News {

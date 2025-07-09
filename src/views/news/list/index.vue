@@ -1,7 +1,7 @@
 <template>
   <div class="news-list-container">
     <div class="search-section">
-      <a-button type="primary" @click="handleCreate">发布新闻</a-button>
+      <a-button type="primary" @click="handleCreate">发布内容</a-button>
     </div>
 
     <!-- 表格区域 -->
@@ -62,7 +62,7 @@
                 编辑
               </a-button>
               <a-popconfirm
-                title="确定要删除这条新闻吗？"
+                title="确定要删除这条内容吗？"
                 ok-text="确定"
                 cancel-text="取消"
                 @confirm="handleDelete(record.id)"
@@ -86,7 +86,7 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import { getNewsApi, deleteNewsApi, type QueryNewsDto } from '@/api/news'
+import { getNewsApi, deleteNewsApi, type QueryNewsDto, NewsCategory } from '@/api/news'
 
 const router = useRouter()
 
@@ -198,16 +198,16 @@ const handlePageSizeChange = (current: number, size: number) => {
 // 工具函数
 const getCategoryColor = (category: string) => {
   const colorMap: Record<string, string> = {
-    company: 'blue',
-    industry: 'green',
+    [NewsCategory.COMPANY]: 'blue',
+    [NewsCategory.BLOG]: 'green',
   }
   return colorMap[category] || 'default'
 }
 
 const getCategoryText = (category: string) => {
   const textMap: Record<string, string> = {
-    company: '公司新闻',
-    industry: '行业资讯',
+    [NewsCategory.COMPANY]: '公司新闻',
+    [NewsCategory.BLOG]: '博客',
   }
   return textMap[category] || category
 }

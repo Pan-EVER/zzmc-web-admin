@@ -87,7 +87,7 @@
     </a-tabs>
     <!-- 添加/编辑文件模态框 -->
     <a-modal
-      v-model:visible="fileModalVisible"
+      v-model:open="fileModalVisible"
       :title="fileModalTitle"
       @ok="handleFileModalOk"
       @cancel="handleFileModalCancel"
@@ -139,7 +139,7 @@
 
     <!-- 添加/编辑分类模态框 -->
     <a-modal
-      v-model:visible="categoryModalVisible"
+      v-model:open="categoryModalVisible"
       :title="categoryModalTitle"
       @ok="handleCategoryModalOk"
       @cancel="handleCategoryModalCancel"

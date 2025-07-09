@@ -16,29 +16,29 @@
         <a-col :span="16">
           <!-- 基本信息 -->
           <a-card title="基本信息" style="margin-bottom: 16px">
-            <a-form-item label="新闻标题" name="title">
+            <a-form-item label="标题" name="title">
               <a-input
                 v-model:value="formData.title"
-                placeholder="请输入新闻标题"
+                placeholder="请输入标题"
                 :maxlength="100"
                 show-count
               />
             </a-form-item>
 
-            <a-form-item label="新闻概述" name="summary">
+            <a-form-item label="概述" name="summary">
               <a-textarea
                 v-model:value="formData.summary"
-                placeholder="请输入新闻概述"
+                placeholder="请输入概述"
                 :rows="3"
                 :maxlength="200"
                 show-count
               />
             </a-form-item>
 
-            <a-form-item label="新闻分类" name="category">
-              <a-select v-model:value="formData.category" placeholder="请选择新闻分类">
-                <a-select-option value="company">公司新闻</a-select-option>
-                <a-select-option value="industry">行业资讯</a-select-option>
+            <a-form-item label="分类" name="category">
+              <a-select v-model:value="formData.category" placeholder="请选择分类">
+                <a-select-option :value="NewsCategory.COMPANY">公司新闻</a-select-option>
+                <a-select-option :value="NewsCategory.BLOG">博客</a-select-option>
               </a-select>
             </a-form-item>
           </a-card>
@@ -99,8 +99,8 @@
           </a-card> -->
         </a-col>
         <a-col :span="24">
-          <!-- 新闻内容 -->
-          <a-card title="新闻内容">
+          <!-- 内容 -->
+          <a-card title="内容">
             <a-form-item name="content">
               <RichTextEditor v-model:content="formData.content" />
             </a-form-item>
@@ -124,6 +124,7 @@ import { useRequest } from 'vue-request'
 import { PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import RichTextEditor from '@/components/RichTextEditor/index.vue'
 import {
+  NewsCategory,
   createNewsApi,
   updateNewsApi,
   getNewsDetailApi,
@@ -171,18 +172,18 @@ const formData = reactive<FormData>({
 // 表单验证规则
 const formRules = {
   title: [
-    { required: true, message: '请输入新闻标题', trigger: 'blur' },
+    { required: true, message: '请输入标题', trigger: 'blur' },
     { min: 2, max: 100, message: '标题长度在 2 到 100 个字符', trigger: 'blur' },
   ],
   summary: [
-    { required: true, message: '请输入新闻概述', trigger: 'blur' },
+    { required: true, message: '请输入概述', trigger: 'blur' },
     { min: 10, max: 200, message: '概述长度在 10 到 200 个字符', trigger: 'blur' },
   ],
   content: [
-    { required: true, message: '请输入新闻内容', trigger: 'blur' },
+    { required: true, message: '请输入内容', trigger: 'blur' },
     { min: 50, message: '内容不能少于50个字符', trigger: 'blur' },
   ],
-  category: [{ required: true, message: '请选择新闻分类', trigger: 'change' }],
+  category: [{ required: true, message: '请选择分类', trigger: 'change' }],
 }
 
 // 获取新闻详情（编辑模式）
@@ -202,7 +203,7 @@ const newsDetailRequest = useRequest(() => getNewsDetailApi(newsId.value), {
   },
   onError: (error) => {
     console.log(error)
-    message.error('获取新闻详情失败')
+    message.error('获取详情失败')
   },
 })
 
