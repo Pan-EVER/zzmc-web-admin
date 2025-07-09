@@ -11,6 +11,8 @@ import BaseFileListUpload from '../component/BaseFileListUpload.vue'
 import { tabsList } from '../constant/index'
 import FormGenerator from '../component/FormGenerator.vue'
 
+import RichTextEditor from '@/components/RichTextEditor/index.vue'
+
 type ComponentAttrs = {
   labelCol?: { style?: Record<string, any> }
   wrapperCol?: { span?: number }
@@ -202,7 +204,11 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.specificationAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
+            </template>
+            <template #installationDescription-textarea>
+              <RichTextEditor v-model:content="item.formValue.installationDescription" />
             </template>
             <template #installationImage-img-upload="props">
               <BaseImageUpload
@@ -215,6 +221,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.installationAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
             <template #performanceImage-img-upload="props">
@@ -228,6 +235,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.performanceAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
             <template #engineeringImage-img-upload="props">
@@ -241,6 +249,7 @@ onBeforeMount(() => {
               <BaseFileListUpload
                 :fileList="item.formValue.engineeringAttachments"
                 @on-change="(file) => handleFileChange(file, item, props)"
+                :accept="''"
               ></BaseFileListUpload>
             </template>
           </FormGenerator>

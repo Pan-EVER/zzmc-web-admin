@@ -44,6 +44,7 @@ const isValidFileType = (file: File) => {
   const acceptTypes = props.accept.split(',')
   const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
 
+  if (!props.accept) return true
   // 1. 检查文件扩展名
   if (acceptTypes.includes(fileExtension)) {
     return true

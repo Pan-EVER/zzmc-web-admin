@@ -96,19 +96,19 @@ const tabsList = [
     fields: [
       {
         name: 'bearingSize',
-        label: '轴承尺寸',
+        label: '尺寸',
         type: 'input',
         attrs: {
-          placeholder: '请输入轴承尺寸',
+          placeholder: '请输入尺寸',
           addonAfter: '毫米',
         },
       },
       {
         name: 'inputPressure',
-        label: '输入压力',
+        label: '进气压力',
         type: 'input',
         attrs: {
-          placeholder: '请输入输入压力',
+          placeholder: '请输入进气压力',
           addonAfter: 'MPa',
         },
       },
@@ -127,42 +127,42 @@ const tabsList = [
         type: 'input',
         attrs: {
           placeholder: '请输入刚度',
-          addonAfter: '牛 N/微米',
+          addonAfter: '牛/微米',
         },
       },
       {
         name: 'noLoadFlow',
-        label: '无负载流',
+        label: '空载流量',
         type: 'input',
         attrs: {
-          placeholder: '请输入无负载流',
+          placeholder: '请输入空载流量',
           addonAfter: 'NLPM',
         },
       },
       {
         name: 'thresholdHeight',
-        label: '门槛高度',
+        label: '悬浮高度',
         type: 'input',
         attrs: {
-          placeholder: '请输入门槛高度',
+          placeholder: '请输入悬浮高度',
           addonAfter: '微米',
         },
       },
       {
         name: 'bearingHeight',
-        label: '轴承高度',
+        label: '高度',
         type: 'input',
         attrs: {
-          placeholder: '请输入轴承高度',
+          placeholder: '请输入高度',
           addonAfter: '毫米',
         },
       },
       {
         name: 'bearingWeight',
-        label: '轴承重量',
+        label: '重量',
         type: 'input',
         attrs: {
-          placeholder: '请输入轴承重量',
+          placeholder: '请输入重量',
           addonAfter: '克',
         },
       },
@@ -176,18 +176,18 @@ const tabsList = [
       },
       {
         name: 'porousMediumMaterial',
-        label: '多孔介质材料',
+        label: '节流器材料',
         type: 'input',
         attrs: {
-          placeholder: '请输入多孔介质材料',
+          placeholder: '请输入节流器材料',
         },
       },
       {
         name: 'bearingSurfaceSize',
-        label: '轴承表面尺寸-碳',
+        label: '气浮面尺寸',
         type: 'input',
         attrs: {
-          placeholder: '请输入轴承表面尺寸',
+          placeholder: '请输入气浮面尺寸',
           addonAfter: '毫米',
         },
       },
@@ -197,7 +197,7 @@ const tabsList = [
         type: 'input',
         attrs: {
           placeholder: '请输入平面度',
-          addonAfter: '毫米',
+          addonAfter: '微米',
         },
       },
       {
@@ -211,27 +211,27 @@ const tabsList = [
       },
       {
         name: 'pressureInputThread',
-        label: '压力输口螺纹',
+        label: '进气口螺纹',
         type: 'input',
         attrs: {
-          placeholder: '请输入压力输口螺纹',
+          placeholder: '请输入进气口螺纹',
         },
       },
       {
         name: 'viablePressureRange',
-        label: '可行的压力范围',
+        label: '可行的进气压力范围',
         type: 'input',
         attrs: {
-          placeholder: '请输入可行的压力范围',
+          placeholder: '请输入可行的进气压力范围',
           addonAfter: 'MPa',
         },
       },
       {
         name: 'maxAllowablePressureSupply',
-        label: '最大允许压力供应',
+        label: '最大允许进气压力',
         type: 'input',
         attrs: {
-          placeholder: '请输入最大允许压力供应',
+          placeholder: '请输入最大允许进气压力',
           addonAfter: 'MPa',
         },
       },
@@ -254,10 +254,10 @@ const tabsList = [
       },
       {
         name: 'commonGuideSurface',
-        label: '公共导向面',
+        label: '导轨面',
         type: 'input',
         attrs: {
-          placeholder: '请输入公共导向面',
+          placeholder: '请输入导轨面',
         },
       },
       {
@@ -307,6 +307,7 @@ const tabsList = [
         attrs: {
           placeholder: '请输入安装说明',
         },
+        slot: true,
       },
       {
         label: '上传安装图片',
