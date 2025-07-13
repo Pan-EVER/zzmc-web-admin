@@ -3,15 +3,35 @@ import { request } from '@/utils'
 /**
  * CreateProductDto
  */
+// export interface Request {
+//   /**
+//    * 优点列表
+//    */
+//   advantages?: CreateAdvantageDto[]
+//   /**
+//    * 内容区域列表
+//    */
+//   contentAreas?: CreateContentAreaDto[]
+//   /**
+//    * 产品描述
+//    */
+//   description: string
+//   /**
+//    * 产品名称
+//    */
+//   name: string
+//   /**
+//    * 标题
+//    */
+//   title?: string
+//   /**
+//    * 标题描述列表
+//    */
+//   titleDescriptions?: string[]
+//   [property: string]: any
+// }
+
 export interface Request {
-  /**
-   * 优点列表
-   */
-  advantages?: CreateAdvantageDto[]
-  /**
-   * 内容区域列表
-   */
-  contentAreas?: CreateContentAreaDto[]
   /**
    * 产品描述
    */
@@ -19,15 +39,9 @@ export interface Request {
   /**
    * 产品名称
    */
-  name: string
-  /**
-   * 标题
-   */
-  title?: string
-  /**
-   * 标题描述列表
-   */
-  titleDescriptions?: string[]
+  name: string | undefined
+  overviewContent: any
+  order: number
   [property: string]: any
 }
 
@@ -97,7 +111,6 @@ export const deleteProductApi = (id: number) => {
     method: 'delete',
   })
 }
-
 
 export const getProductDetailById = (id: number) => {
   return request({
