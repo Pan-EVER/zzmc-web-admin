@@ -191,7 +191,6 @@ const newsDetailRequest = useRequest(() => getNewsDetailApi(newsId.value), {
   manual: true,
   onSuccess: (data) => {
     const news = data
-    console.log(news)
     Object.assign(formData, {
       title: news.title,
       summary: news.summary,

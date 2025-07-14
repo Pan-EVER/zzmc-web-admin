@@ -288,7 +288,6 @@ const tabsList = [
     formValue: {
       installationTitle: '',
       installationDescription: '',
-      installationImage: [],
       installationAttachments: [],
     },
     fields: [
@@ -307,12 +306,6 @@ const tabsList = [
         attrs: {
           placeholder: '请输入安装说明',
         },
-        slot: true,
-      },
-      {
-        label: '上传安装图片',
-        name: 'installationImage',
-        type: 'img-upload',
         slot: true,
       },
       {

@@ -210,13 +210,6 @@ onBeforeMount(() => {
             <template #installationDescription-textarea>
               <RichTextEditor v-model:content="item.formValue.installationDescription" />
             </template>
-            <template #installationImage-img-upload="props">
-              <BaseImageUpload
-                :imageList="item.formValue.installationImage"
-                :maxCount="1"
-                @on-change="(file) => handleImageChange(file, item, props)"
-              ></BaseImageUpload>
-            </template>
             <template #installationAttachments-file-upload="props">
               <BaseFileListUpload
                 :fileList="item.formValue.installationAttachments"

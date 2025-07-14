@@ -68,10 +68,6 @@ export interface Request {
    */
   installationDescription?: string
   /**
-   * 安装细节图片
-   */
-  installationImage?: CreateFileInfoDto
-  /**
    * 安装细节标题
    */
   installationTitle?: string
