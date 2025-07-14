@@ -119,7 +119,7 @@ const setEvent = () => {
   })
 }
 
-const maintainProductList = (newInfo: FormState & Product) => {
+const maintainProductList = () => {
   fetchList()
 }
 

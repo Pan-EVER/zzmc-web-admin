@@ -35,7 +35,7 @@ const toolbarConfig: Partial<IToolbarConfig> = {
 }
 
 const editorConfig: Partial<IEditorConfig> = {
-  placeholder: '请输入案例内容...',
+  placeholder: '请输入内容...',
   MENU_CONF: {
     uploadImage: {
       // 自定义图片上传

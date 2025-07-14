@@ -218,7 +218,7 @@ const props = defineProps({
 })
 const emit = defineEmits<{
   (e: 'on-cancel', v: boolean): void
-  (e: 'on-save', data: any): void
+  (e: 'on-save'): void
 }>()
 
 const visible = ref(false)
@@ -435,7 +435,7 @@ const handleOk = async () => {
     }
     message.success('保存成功')
     setTimeout(() => {
-      emit('on-save', params)
+      emit('on-save')
       visible.value = false
     }, 1000)
   }
