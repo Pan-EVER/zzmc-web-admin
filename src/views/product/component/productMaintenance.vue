@@ -12,7 +12,7 @@
     <a-form
       :model="form"
       :label-col="labelWidth"
-      :wrapper-col="{ span: 20 }"
+      :wrapper-col="{ span: 22 }"
       layout="horizontal"
       :rules="rules"
       ref="formRef"
@@ -35,12 +35,15 @@
         />
       </a-form-item>
       <a-form-item label="排序权重" name="order">
-          <a-input-number id="inputNumber" v-model:value="form.order" :min="0" />
+        <a-input-number id="inputNumber" v-model:value="form.order" :min="0" />
       </a-form-item>
 
       <!-- 概览信息 -->
       <a-divider orientation="center" style="font-size: 16px">概览信息</a-divider>
-      <a-form-item label="标题" name="title">
+      <a-form-item name="overviewContent" :wrapper-col="{ span: 24 }">
+        <RichTextEditor v-model:content="form.overviewContent" />
+      </a-form-item>
+      <!-- <a-form-item label="标题" name="title">
         <a-input v-model:value="form.title" placeholder="请输入标题" />
       </a-form-item>
       <a-form-item
@@ -99,8 +102,6 @@
             </a-form-item>
           </a-col>
           <a-col :span="8" class="d-flex align-items-center">
-            <!-- <span style="margin-right: 8px">内容区域{{ index + 1 }}图片</span> -->
-            <!--  -->
             <a-form-item
               :name="`contentAreas[${index}].image`"
               :label-col="labelWidth"
@@ -108,22 +109,6 @@
               :label="`内容区域${index + 1}图片:`"
               no-style
             >
-              <!-- <a-upload
-                list-type="picture-card"
-                v-model:fileList="item.image"
-                :before-upload="(file: UploadFile) => beforeUpload(file)"
-                :on-remove="(file: UploadFile) => onRemove(file, item)"
-                class="content-area-img"
-                :maxCount="1"
-                @preview="(file: UploadFile) => handlePreview(file)"
-                @change="(file: UploadFile) => handleFileChange(file, item)"
-                :custom-request="(options:any)=>customRequest(options,item)"
-              >
-                <div>
-                  <PlusOutlined />
-                  <div style="margin-top: 8px">上传</div>
-                </div>
-              </a-upload> -->
               <BaseImageUpload
                 :imageList="item.image"
                 :maxCount="1"
@@ -164,10 +149,10 @@
             </a-form-item>
           </a-col>
         </a-row>
-      </a-form-item>
+      </a-form-item> -->
     </a-form>
   </a-modal>
-  <a-image
+  <!-- <a-image
     :width="200"
     :style="{ display: 'none' }"
     :preview="{
@@ -175,21 +160,22 @@
       src: previewSrc,
       onVisibleChange: (visible) => (previewVisible = visible),
     }"
-  />
+  /> -->
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
-import type { UploadFile as AntUploadFile } from 'ant-design-vue'
-import type { ContentItem } from '../types'
+// import { PlusOutlined } from '@ant-design/icons-vue'
+// import type { UploadFile as AntUploadFile } from 'ant-design-vue'
+// import type { ContentItem } from '../types'
 
-import { uploadFile } from '@/api/upload'
+// import { uploadFile } from '@/api/upload'
 
 import { addProducts, updateProducts } from '@/api/product/productList'
 
-import BaseImageUpload from '../component/BaseImageUpload.vue'
+// import BaseImageUpload from '../component/BaseImageUpload.vue'
+import RichTextEditor from '@/components/RichTextEditor/index.vue'
 
 const labelWidth = { style: { width: '100px' } }
 const wrapperCol = { span: 0 }
@@ -200,23 +186,24 @@ const rules = {
   order: [{ required: true, message: '请输入排序权重' }],
 }
 
-interface UploadFile extends AntUploadFile {
-  imageId?: string
-}
+// interface UploadFile extends AntUploadFile {
+//   imageId?: string
+// }
 
-type Contents = ContentItem[]
+// type Contents = ContentItem[]
 
 type FormType = {
   name: undefined
   description: string
   order: number
-  title: string
-  titleDescriptions: string[]
-  contentAreas: Contents
-  advantages: {
-    description: string
-    title: string
-  }[]
+  // title: string
+  // titleDescriptions: string[]
+  // contentAreas: Contents
+  // advantages: {
+  //   description: string
+  //   title: string
+  // }[]
+  overviewContent: any
 }
 
 const props = defineProps({
@@ -261,103 +248,104 @@ const productNameOptions = reactive([
 const form = reactive<FormType>({
   name: undefined,
   description: '',
-  title: '',
   order: 0,
-  titleDescriptions: ['', '', ''],
-  contentAreas: [
-    {
-      title: '',
-      content: '',
-      image: [],
-    },
-    {
-      title: '',
-      content: '',
-      image: [],
-    },
-    {
-      title: '',
-      content: '',
-      image: [],
-    },
-  ],
-  // 优点1
-  advantages: [
-    {
-      description: '',
-      title: '',
-    },
-    {
-      description: '',
-      title: '',
-    },
-    {
-      description: '',
-      title: '',
-    },
-  ],
+  overviewContent: '',
+  // title: '',
+  // titleDescriptions: ['', '', ''],
+  // contentAreas: [
+  //   {
+  //     title: '',
+  //     content: '',
+  //     image: [],
+  //   },
+  //   {
+  //     title: '',
+  //     content: '',
+  //     image: [],
+  //   },
+  //   {
+  //     title: '',
+  //     content: '',
+  //     image: [],
+  //   },
+  // ],
+  // // 优点1
+  // advantages: [
+  //   {
+  //     description: '',
+  //     title: '',
+  //   },
+  //   {
+  //     description: '',
+  //     title: '',
+  //   },
+  //   {
+  //     description: '',
+  //     title: '',
+  //   },
+  // ],
 })
 
 const formRef = ref()
 
 // 图片预览相关
-const previewVisible = ref(false)
-const previewSrc = ref('')
+// const previewVisible = ref(false)
+// const previewSrc = ref('')
 
-const contentAreasItemRules = computed(() => {
-  return (index: number) => {
-    return [
-      {
-        required: true,
-        message: '请输入内容区域内容',
-        validator: (_, val) => validateContentArea(val, index),
-      },
-    ]
-  }
-})
-const validateContentArea = (_, index) => {
-  const area = form.contentAreas[index]
-  if (!area.title && !area.content) {
-    return Promise.reject('标题和内容至少填写一项')
-  }
-  return Promise.resolve()
-}
+// const contentAreasItemRules = computed(() => {
+//   return (index: number) => {
+//     return [
+//       {
+//         required: true,
+//         message: '请输入内容区域内容',
+//         validator: (_, val) => validateContentArea(val, index),
+//       },
+//     ]
+//   }
+// })
+// const validateContentArea = (_, index) => {
+//   const area = form.contentAreas[index]
+//   if (!area.title && !area.content) {
+//     return Promise.reject('标题和内容至少填写一项')
+//   }
+//   return Promise.resolve()
+// }
 const initailDataFromProps = () => {
   const editInfo = JSON.parse(JSON.stringify(props.editInfo))
-  const ensureArrayLength = (array, length, defaultValue, addImageField = false) => {
-    return Array.from({ length }).map((_, index) => {
-      const currentOne = array[index]
-      if (currentOne) {
-        if (addImageField && typeof currentOne === 'object') {
-          return {
-            ...currentOne,
-            image: currentOne.image ? [{ ...currentOne.image,response:{...currentOne.image} }] : [],
-          }
-        }
-        return currentOne
-      }
-      return defaultValue(index)
-    })
-  }
+  // const ensureArrayLength = (array, length, defaultValue, addImageField = false) => {
+  //   return Array.from({ length }).map((_, index) => {
+  //     const currentOne = array[index]
+  //     if (currentOne) {
+  //       if (addImageField && typeof currentOne === 'object') {
+  //         return {
+  //           ...currentOne,
+  //           image: currentOne.image ? [{ ...currentOne.image,response:{...currentOne.image} }] : [],
+  //         }
+  //       }
+  //       return currentOne
+  //     }
+  //     return defaultValue(index)
+  //   })
+  // }
 
-  editInfo.contentAreas = ensureArrayLength(
-    editInfo.contentAreas || [],
-    3,
-    () => ({ title: '', content: '', image: [] }),
-    true,
-  )
-  editInfo.advantages = ensureArrayLength(
-    editInfo.advantages || [],
-    3,
-    () => ({ description: '', title: '' }),
-    false,
-  )
-  editInfo.titleDescriptions = ensureArrayLength(
-    editInfo.titleDescriptions || [],
-    3,
-    () => '',
-    false,
-  )
+  // editInfo.contentAreas = ensureArrayLength(
+  //   editInfo.contentAreas || [],
+  //   3,
+  //   () => ({ title: '', content: '', image: [] }),
+  //   true,
+  // )
+  // editInfo.advantages = ensureArrayLength(
+  //   editInfo.advantages || [],
+  //   3,
+  //   () => ({ description: '', title: '' }),
+  //   false,
+  // )
+  // editInfo.titleDescriptions = ensureArrayLength(
+  //   editInfo.titleDescriptions || [],
+  //   3,
+  //   () => '',
+  //   false,
+  // )
 
   // Merge data from editInfo into form if key exists
   Object.keys(editInfo).forEach((key) => {
@@ -377,68 +365,68 @@ const showModel = () => {
   })
 }
 
-const handleImageChange = (list: Array<UploadFile>, currentInfo) => {
-  currentInfo.image = list
-}
+// const handleImageChange = (list: Array<UploadFile>, currentInfo) => {
+//   currentInfo.image = list
+// }
 
-
-// // 控制 Loading
+// // // 控制 Loading
 const loading = ref(false)
 
-const uploadImgs = async () => {
-  form.contentAreas = await Promise.all(
-    form.contentAreas.map(async (item) => {
-      const resolvedImages = await Promise.all(
-        item.image.map(async (img: any) => {
-          const imageInfo = await uploadFile(img.originFileObj)
-          return {
-            ...img,
-            ...imageInfo,
-          }
-        }),
-      )
-      return {
-        ...item,
-        image: resolvedImages,
-      }
-    }),
-  )
-}
+// const uploadImgs = async () => {
+//   form.contentAreas = await Promise.all(
+//     form.contentAreas.map(async (item) => {
+//       const resolvedImages = await Promise.all(
+//         item.image.map(async (img: any) => {
+//           const imageInfo = await uploadFile(img.originFileObj)
+//           return {
+//             ...img,
+//             ...imageInfo,
+//           }
+//         }),
+//       )
+//       return {
+//         ...item,
+//         image: resolvedImages,
+//       }
+//     }),
+//   )
+// }
 
 const handleOk = async () => {
-  let isPass:any;
+  let isPass: any
   try {
-     isPass =  await formRef.value.validate()
+    isPass = await formRef.value.validate()
   } catch (error) {
-      isPass = false
+    isPass = false
   }
 
   if (isPass) {
     // await uploadImgs()
-    const { name, title, description, titleDescriptions, contentAreas, advantages, order } = form
-    const params = {
-      name,
-      title,
-      description,
-      order,
-      titleDescriptions,
-      contentAreas: contentAreas
-        .map((item) => {
-          return {
-            ...item,
-            image:
-              item.image.length > 0
-                ? {
-                    id: item.image[0]?.response?.id,
-                    filename: item.image[0]?.response?.originalName || item.image[0]?.response?.filename,
-                    url: item.image[0]?.response?.url,
-                  }
-                : undefined,
-          }
-        })
-        .filter((i) => i.content || i.title||i.image!==undefined),
-      advantages: advantages.filter((it) => it.title && it.description),
-    }
+    // const { name, title, description, titleDescriptions, contentAreas, advantages, order } = form
+    // const params = {
+    //   name,
+    //   title,
+    //   description,
+    //   order,
+    //   titleDescriptions,
+    //   contentAreas: contentAreas
+    //     .map((item) => {
+    //       return {
+    //         ...item,
+    //         image:
+    //           item.image.length > 0
+    //             ? {
+    //                 id: item.image[0]?.response?.id,
+    //                 filename: item.image[0]?.response?.originalName || item.image[0]?.response?.filename,
+    //                 url: item.image[0]?.response?.url,
+    //               }
+    //             : undefined,
+    //       }
+    //     })
+    //     .filter((i) => i.content || i.title||i.image!==undefined),
+    //   advantages: advantages.filter((it) => it.title && it.description),
+    // }
+    const params = { ...form }
 
     if (props.isEdit) {
       await updateProducts(props.editInfo?.id, params)
@@ -462,7 +450,8 @@ const handleCancel = () => {
 
 const resetForm = () => {
   formRef.value.resetFields()
-  form.contentAreas = Array.from([1, 2, 3], (_) => ({ title: '', content: '', image: [] }))
+  form.overviewContent = ''
+  // form.contentAreas = Array.from([1, 2, 3], (_) => ({ title: '', content: '', image: [] }))
 }
 
 defineExpose({ showModel })
