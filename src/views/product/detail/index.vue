@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
-import { message, Modal } from 'ant-design-vue'
+import { onBeforeMount, ref } from 'vue'
+import { message } from 'ant-design-vue'
 import type { UploadFile as AntUploadFile } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { Model } from '../types'
-import { updateCurrentModel, getModelDetailById } from '@/api/product/models'
+import { updateCurrentModel, getModelDetailById, type VideoInfo } from '@/api/product/models'
 import BasicModelInformation from '../component/BasicModelInformation.vue'
 import BaseImageUpload from '../component/BaseImageUpload.vue'
 import BaseFileListUpload from '../component/BaseFileListUpload.vue'
 import { tabsList } from '../constant/index'
 import FormGenerator from '../component/FormGenerator.vue'
-
 import RichTextEditor from '@/components/RichTextEditor/index.vue'
+import VideoList from './VideoList.vue'
 
 type ComponentAttrs = {
   labelCol?: { style?: Record<string, any> }
@@ -54,6 +54,9 @@ const detailForm = ref<Model>({
   modelId: null,
   coverImage: [],
 })
+
+const videos = ref<VideoInfo[]>([])
+
 const activeKey = ref<string>(tabsList[0].key)
 const tabs = ref<tabItem[]>(tabsList)
 const formRef = ref()
@@ -124,6 +127,7 @@ const saveFormValue = (newValue: any, currentInfo: any) => {
 const _getModelDetailById = async () => {
   const id = route.params.id
   const res = await getModelDetailById(id)
+  videos.value = res.videoList || []
   const { name, sku, description, id: modelId, coverImage } = res
   detailForm.value = {
     name,
@@ -171,7 +175,7 @@ const _getModelDetailById = async () => {
 const backToList = () => {
   router.push({ path: '/product' })
 }
-onMounted(() => {})
+
 onBeforeMount(() => {
   _getModelDetailById()
 })
@@ -190,7 +194,7 @@ onBeforeMount(() => {
       </div>
     </div>
     <div class="tabs">
-      <a-tabs v-model:activeKey="activeKey" size="large" :tabBarGutter="200">
+      <a-tabs v-model:activeKey="activeKey" size="large" :tabBarGutter="100" centered>
         <a-tab-pane v-for="item in tabs" :key="item.key" :tab="item.tab">
           <FormGenerator
             :modelValue="item.formValue"
@@ -246,6 +250,9 @@ onBeforeMount(() => {
               ></BaseFileListUpload>
             </template>
           </FormGenerator>
+        </a-tab-pane>
+        <a-tab-pane key="video" tab="视频展示">
+          <VideoList :videos="videos" @refresh="_getModelDetailById"/>
         </a-tab-pane>
       </a-tabs>
     </div>

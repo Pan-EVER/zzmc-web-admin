@@ -1,8 +1,6 @@
 import { request } from '@/utils'
-/**
- * CreateProductModelDto
- */
-export interface Request {
+
+export interface CreateProductModelDto {
   /**
    * 球窝尺寸
    */
@@ -147,9 +145,20 @@ export interface Request {
    * 可行的进气压力范围
    */
   viablePressureRange?: string
+  /**
+   * 视频列表
+   */
+  videoList?: VideoInfo[]
   [property: string]: any
 }
-
+export interface VideoInfo {
+  id: number
+  filename: string
+  url: string
+  title: string
+  size: number
+  mineType: string
+}
 /**
  * CreateFileInfoDto
  *
@@ -175,7 +184,11 @@ export interface CreateFileInfoDto {
   [property: string]: any
 }
 
-export const addModels = (productId: number, data: Request) => {
+export interface IModelDetail extends CreateProductModelDto {
+  id: number
+}
+
+export const addModels = (productId: number, data: CreateProductModelDto) => {
   return request({
     url: `/products/${productId}/models`,
     method: 'post',
@@ -184,13 +197,13 @@ export const addModels = (productId: number, data: Request) => {
 }
 
 export const getModelDetailById = (id: string | number) => {
-  return request({
+  return request<IModelDetail>({
     url: `/products/models/${id}`,
     method: 'get',
   })
 }
 
-export const updateCurrentModel = (id: number, data: Request) => {
+export const updateCurrentModel = (id: number, data: CreateProductModelDto) => {
   return request({
     url: `/products/models/${id}`,
     method: 'patch',
@@ -201,6 +214,49 @@ export const updateCurrentModel = (id: number, data: Request) => {
 export const deleteModelApi = (id: number) => {
   return request({
     url: `/products/models/${id}`,
+    method: 'delete',
+  })
+}
+
+export interface VideoInfoDto {
+  /**
+   * 视频文件ID
+   */
+  id: number
+  /**
+   * 视频标题
+   */
+  title: string
+}
+
+/**
+ * 为产品型号添加视频
+ */
+export const addVideosToModelApi = (modelId: number, data: VideoInfoDto[]) => {
+  return request({
+    url: `/products/models/${modelId}/videos`,
+    method: 'post',
+    data: { videos: data },
+  })
+}
+
+/**
+ * 更新产品型号视频标题
+ */
+export const updateVideoTitleApi = (modelId: number, videoId: number, data: { title: string }) => {
+  return request({
+    url: `/products/models/${modelId}/videos/${videoId}/title`,
+    method: 'patch',
+    data,
+  })
+}
+
+/**
+ * 删除产品型号视频
+ */
+export const deleteVideoFromModelApi = (modelId: number, videoId: number) => {
+  return request({
+    url: `/products/models/${modelId}/videos/${videoId}`,
     method: 'delete',
   })
 }
