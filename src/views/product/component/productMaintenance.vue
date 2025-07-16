@@ -175,7 +175,7 @@ import { message } from 'ant-design-vue'
 import { addProducts, updateProducts } from '@/api/product/productList'
 
 // import BaseImageUpload from '../component/BaseImageUpload.vue'
-import RichTextEditor from '@/components/RichTextEditor/index.vue'
+import { RichTextEditor } from '@/components'
 
 const labelWidth = { style: { width: '100px' } }
 const wrapperCol = { span: 0 }

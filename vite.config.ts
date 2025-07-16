@@ -16,6 +16,8 @@ export default defineConfig({
           importStyle: false, // css in js
         }),
       ],
+      // 排除自定义组件的自动导入
+      exclude: [/\/src\/components\//],
     }),
   ],
   resolve: {
