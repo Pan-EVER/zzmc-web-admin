@@ -1,6 +1,7 @@
 <template>
   <div>
     <Editor
+      :initial-value="''"
       v-model="content"
       api-key="no-api-key"
       tinymceScriptSrc="/tinymce/tinymce.min.js"

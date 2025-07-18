@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue'
+import { nextTick, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { addProducts, updateProducts } from '@/api/product/productList'
 import { TinyRichEditor } from '@/components'
@@ -64,7 +64,7 @@ type FormType = {
   name: undefined
   description: string
   order: number
-  overviewContent: any
+  overviewContent: string
 }
 
 const props = defineProps({
@@ -120,7 +120,11 @@ const initailDataFromProps = () => {
   // Merge data from editInfo into form if key exists
   Object.keys(editInfo).forEach((key) => {
     if (Object.prototype.hasOwnProperty.call(form, key)) {
-      form[key] = editInfo[key]
+      if (key === 'overviewContent') {
+        form[key] = editInfo[key] || ''
+      } else {
+        form[key] = editInfo[key]
+      }
     }
   })
 }
@@ -170,6 +174,13 @@ const resetForm = () => {
   formRef.value.resetFields()
   form.overviewContent = ''
 }
+
+watch(
+  () => form.overviewContent,
+  (val) => {
+    console.log('---', (form.overviewContent = val))
+  },
+)
 
 defineExpose({ showModel })
 </script>
