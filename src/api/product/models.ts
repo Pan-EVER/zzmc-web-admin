@@ -1,6 +1,7 @@
 import { request } from '@/utils'
 
 export interface CreateProductModelDto {
+  parameterTable?: string
   /**
    * 球窝尺寸
    */

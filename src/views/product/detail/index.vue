@@ -12,6 +12,7 @@ import { tabsList } from '../constant/index'
 import FormGenerator from '../component/FormGenerator.vue'
 import { TinyRichEditor } from '@/components'
 import VideoList from './VideoList.vue'
+import Parammeter from './Parammeter.vue'
 
 type ComponentAttrs = {
   labelCol?: { style?: Record<string, any> }
@@ -57,8 +58,8 @@ const detailForm = ref<Model>({
 
 const videos = ref<VideoInfo[]>([])
 
-const activeKey = ref<string>(tabsList[0].key)
-const tabs = ref<tabItem[]>(tabsList)
+const activeKey = ref<string>('specifications')
+const tabs = ref<tabItem[]>(tabsList.filter((item) => item.key !== 'specifications'))
 const formRef = ref()
 const loading = ref(false)
 const saveBasicInfo = async (otherData = {}) => {
@@ -195,6 +196,9 @@ onBeforeMount(() => {
     </div>
     <div class="tabs">
       <a-tabs v-model:activeKey="activeKey" size="large" :tabBarGutter="100" centered>
+        <a-tabs-tab-pane key="specifications" tab="规格">
+          <Parammeter :videos="videos" @refresh="_getModelDetailById" />
+        </a-tabs-tab-pane>
         <a-tab-pane v-for="item in tabs" :key="item.key" :tab="item.tab">
           <FormGenerator
             :modelValue="item.formValue"
