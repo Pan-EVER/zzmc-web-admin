@@ -10,7 +10,7 @@ import BaseImageUpload from '../component/BaseImageUpload.vue'
 import BaseFileListUpload from '../component/BaseFileListUpload.vue'
 import { tabsList } from '../constant/index'
 import FormGenerator from '../component/FormGenerator.vue'
-import RichTextEditor from '@/components/RichTextEditor/index.vue'
+import { TinyRichEditor } from '@/components'
 import VideoList from './VideoList.vue'
 
 type ComponentAttrs = {
@@ -212,7 +212,7 @@ onBeforeMount(() => {
               ></BaseFileListUpload>
             </template>
             <template #installationDescription-textarea>
-              <RichTextEditor v-model:content="item.formValue.installationDescription" />
+              <TinyRichEditor v-model:content="item.formValue.installationDescription" />
             </template>
             <template #installationAttachments-file-upload="props">
               <BaseFileListUpload
@@ -252,7 +252,7 @@ onBeforeMount(() => {
           </FormGenerator>
         </a-tab-pane>
         <a-tab-pane key="video" tab="视频展示">
-          <VideoList :videos="videos" @refresh="_getModelDetailById"/>
+          <VideoList :videos="videos" @refresh="_getModelDetailById" />
         </a-tab-pane>
       </a-tabs>
     </div>

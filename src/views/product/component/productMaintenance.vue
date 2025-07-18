@@ -41,7 +41,7 @@
       <!-- 概览信息 -->
       <a-divider orientation="center" style="font-size: 16px">概览信息</a-divider>
       <a-form-item name="overviewContent" :wrapper-col="{ span: 24 }">
-        <RichTextEditor v-model:content="form.overviewContent" />
+        <TinyRichEditor v-model:content="form.overviewContent" />
       </a-form-item>
       <!-- <a-form-item label="标题" name="title">
         <a-input v-model:value="form.title" placeholder="请输入标题" />
@@ -175,7 +175,7 @@ import { message } from 'ant-design-vue'
 import { addProducts, updateProducts } from '@/api/product/productList'
 
 // import BaseImageUpload from '../component/BaseImageUpload.vue'
-import { RichTextEditor } from '@/components'
+import { TinyRichEditor } from '@/components'
 
 const labelWidth = { style: { width: '100px' } }
 const wrapperCol = { span: 0 }

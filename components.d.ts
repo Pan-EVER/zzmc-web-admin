@@ -47,7 +47,9 @@ declare module 'vue' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     AUpload: typeof import('ant-design-vue/es')['Upload']
+    RichTextEditor: typeof import('./src/components/RichTextEditor/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TinyRichEditor: typeof import('./src/components/TinyRichEditor/index.vue')['default']
   }
 }

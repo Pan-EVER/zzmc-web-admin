@@ -114,9 +114,9 @@
           </a-form-item> -->
         </a-col>
         <a-col :span="24">
-          <a-card title="案例内容">
+          <a-card title="案例内容" :body-style="{ padding: '0' }">
             <a-form-item name="content">
-              <RichTextEditor v-model:content="formData.content" />
+              <TinyRichEditor v-model:content="formData.content" />
             </a-form-item>
           </a-card>
         </a-col>
@@ -131,7 +131,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { message, type FormInstance } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
 import { PlusOutlined } from '@ant-design/icons-vue'
-import RichTextEditor from '@/components/RichTextEditor/index.vue'
+import { TinyRichEditor } from '@/components'
 import {
   getCaseDetailApi,
   createCaseApi,

@@ -100,9 +100,9 @@
         </a-col>
         <a-col :span="24">
           <!-- 内容 -->
-          <a-card title="内容">
+          <a-card title="内容" :body-style="{ padding: '0' }">
             <a-form-item name="content">
-              <RichTextEditor v-model:content="formData.content" />
+              <TinyRichEditor v-model:content="formData.content" />
             </a-form-item>
           </a-card>
         </a-col>
@@ -117,12 +117,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useRequest } from 'vue-request'
 import { PlusOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons-vue'
-import RichTextEditor from '@/components/RichTextEditor/index.vue'
+import { TinyRichEditor } from '@/components'
 import {
   NewsCategory,
   createNewsApi,
