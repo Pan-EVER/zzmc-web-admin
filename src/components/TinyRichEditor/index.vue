@@ -12,11 +12,26 @@
 
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { uploadFile } from '@/api/upload'
 import { allPlugins, allToolbar } from './constants'
 
 const content = defineModel<string>('content')
+const props = defineProps<{
+  initValue: string
+}>()
+
+watch(
+  [() => props.initValue, content],
+  ([newInitVal, newContentVal]) => {
+    if (newInitVal && !newContentVal) {
+      content.value = newInitVal
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 // 自定义图片上传处理函数
 const handleImageUpload = (blobInfo: any, progress: (percent: number) => void) => {

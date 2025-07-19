@@ -8,7 +8,7 @@ import { updateCurrentModel, getModelDetailById, type VideoInfo } from '@/api/pr
 import BasicModelInformation from '../component/BasicModelInformation.vue'
 import BaseImageUpload from '../component/BaseImageUpload.vue'
 import BaseFileListUpload from '../component/BaseFileListUpload.vue'
-import { tabsList } from '../constant/index'
+import { tabsList, defaultParameterTable } from '../constant'
 import FormGenerator from '../component/FormGenerator.vue'
 import { TinyRichEditor } from '@/components'
 import VideoList from './VideoList.vue'
@@ -128,7 +128,8 @@ const _getModelDetailById = async () => {
   const id = route.params.id
   const res = await getModelDetailById(id)
   videos.value = res.videoList || []
-  const { name, sku, description, id: modelId, coverImage } = res
+  const { name, sku, description, id: modelId, coverImage, parameterTable } = res
+
   detailForm.value = {
     name,
     sku,
@@ -142,6 +143,7 @@ const _getModelDetailById = async () => {
           },
         ]
       : undefined,
+    parameterTable: parameterTable || defaultParameterTable,
   }
   tabs.value = tabs.value.map((item: any) => {
     for (const key in res) {
@@ -204,6 +206,12 @@ onBeforeMount(() => {
             :buttonContent="item.buttonContent"
             @on-finish="(newFormValue) => saveFormValue(newFormValue, item)"
           >
+            <template #parameterTable-textarea>
+              <TinyRichEditor
+                v-model:content="item.formValue.parameterTable"
+                :initValue="defaultParameterTable"
+              />
+            </template>
             <template #specificationAttachments-file-upload="props">
               <BaseFileListUpload
                 :fileList="item.formValue.specificationAttachments"
@@ -273,14 +281,6 @@ onBeforeMount(() => {
     }
   }
 
-  :deep(.specifi-cations-form) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    .ant-form-item {
-      margin-bottom: 20px;
-    }
-  }
   .go-back-to-list {
     text-align: right;
   }

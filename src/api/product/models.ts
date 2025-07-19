@@ -2,30 +2,6 @@ import { request } from '@/utils'
 
 export interface CreateProductModelDto {
   /**
-   * 球窝尺寸
-   */
-  ballSocketSize?: string
-  /**
-   * 高度
-   */
-  bearingHeight?: string
-  /**
-   * 尺寸
-   */
-  bearingSize?: string
-  /**
-   * 轴承面表面尺寸
-   */
-  bearingSurfaceSize?: string
-  /**
-   * 重量
-   */
-  bearingWeight?: string
-  /**
-   * 导轨面
-   */
-  commonGuideSurface?: string
-  /**
    * 型号描述
    */
   description: string
@@ -46,18 +22,6 @@ export interface CreateProductModelDto {
    */
   engineeringTitle?: string
   /**
-   * 平整度
-   */
-  flatness?: string
-  /**
-   * 理想负载
-   */
-  idealLoad?: string
-  /**
-   * 进气压力
-   */
-  inputPressure?: string
-  /**
    * 安装细节附件列表
    */
   installationAttachments?: CreateFileInfoDto[]
@@ -70,21 +34,9 @@ export interface CreateProductModelDto {
    */
   installationTitle?: string
   /**
-   * 最大允许进气压力
-   */
-  maxAllowablePressureSupply?: string
-  /**
-   * 最大速度
-   */
-  maxSpeed?: string
-  /**
    * 型号名称
    */
   name: string
-  /**
-   * 空载流量
-   */
-  noLoadFlow?: string
   /**
    * 性能数据附件列表
    */
@@ -102,49 +54,19 @@ export interface CreateProductModelDto {
    */
   performanceTitle?: string
   /**
-   * 节流器材料
-   */
-  porousMediumMaterial?: string
-  /**
-   * 进气口螺纹
-   */
-  pressureInputThread?: string
-  /**
    * 产品ID
    */
   productId: number
   /**
-   * 建议的导轨表面光洁度
-   */
-  recommendedGuideSurfaceFinish?: string
-  /**
-   * 分辨率
-   */
-  resolution?: string
-  /**
-   * 外壳材料/表面处理
-   */
-  shellMaterialSurfaceTreatment?: string
-  /**
    * SKU编码
    */
   sku: string
+  // 规格表格
+  parameterTable: string
   /**
    * 规格附件列表
    */
   specificationAttachments?: CreateFileInfoDto[]
-  /**
-   * 刚度
-   */
-  stiffness?: string
-  /**
-   * 悬浮高度
-   */
-  thresholdHeight?: string
-  /**
-   * 可行的进气压力范围
-   */
-  viablePressureRange?: string
   /**
    * 视频列表
    */
