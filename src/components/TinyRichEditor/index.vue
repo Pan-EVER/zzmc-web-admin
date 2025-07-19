@@ -30,6 +30,7 @@ const handleImageUpload = (blobInfo: any, progress: (percent: number) => void) =
     uploadFile(file)
       .then((response) => {
         // 返回图片的 URL
+        // console.log('图片上传成功:', response)
         resolve(response.url)
       })
       .catch((error) => {
@@ -56,11 +57,11 @@ const editorConfig = computed(() => ({
   toolbar_mode: 'sliding',
 
   // 自定义图片上传处理
-  // images_upload_handler: handleImageUpload,
-  // // 允许的图片格式
-  // images_file_types: 'jpeg,jpg,png,gif,bmp,webp',
-  // // 图片上传时显示进度
-  // images_upload_credentials: false,
+  images_upload_handler: handleImageUpload,
+  // 允许的图片格式
+  images_file_types: 'jpeg,jpg,png,gif,bmp,webp',
+  // 图片上传时显示进度
+  images_upload_credentials: false,
   // 自动调整图片大小
   automatic_uploads: true,
 }))
