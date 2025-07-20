@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref, watch } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { addProducts, updateProducts } from '@/api/product/productList'
 import { TinyRichEditor } from '@/components'
@@ -174,13 +174,6 @@ const resetForm = () => {
   formRef.value.resetFields()
   form.overviewContent = ''
 }
-
-watch(
-  () => form.overviewContent,
-  (val) => {
-    console.log('---', (form.overviewContent = val))
-  },
-)
 
 defineExpose({ showModel })
 </script>

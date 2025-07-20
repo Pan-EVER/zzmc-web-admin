@@ -18,7 +18,7 @@ import { allPlugins, allToolbar } from './constants'
 
 const content = defineModel<string>('content')
 const props = defineProps<{
-  initValue: string
+  initValue?: string
 }>()
 
 watch(

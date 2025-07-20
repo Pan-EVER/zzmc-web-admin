@@ -127,7 +127,6 @@ const onRemove = (file: UploadFile) => {
 }
 
 const handlePreview = async (file: UploadFile) => {
-  console.log('handlePreview', file)
   if (!file.url && !file.preview) {
     file.preview = await getBase64(file.originFileObj)
   }

@@ -95,7 +95,6 @@ const handleSave = async () => {
   const isPass = await formRef.value.validate()
   if (isPass) {
     addLoading.value = true
-    console.log('newModelForm', newModelForm.coverImage, newModelForm.coverImage.length)
 
     await addModels(currentRowInfo.value.id, {
       ...newModelForm,
