@@ -4,7 +4,7 @@
       :initial-value="''"
       v-model="content"
       api-key="no-api-key"
-      tinymceScriptSrc="/tinymce/tinymce.min.js"
+      tinymceScriptSrc="/admin/tinymce/tinymce.min.js"
       :init="editorConfig"
     />
   </div>
