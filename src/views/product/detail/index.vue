@@ -229,12 +229,8 @@ onBeforeMount(() => {
                 :accept="''"
               ></BaseFileListUpload>
             </template>
-            <template #performanceImage-img-upload="props">
-              <BaseImageUpload
-                :imageList="item.formValue.performanceImage"
-                :maxCount="1"
-                @on-change="(file) => handleImageChange(file, item, props)"
-              ></BaseImageUpload>
+            <template #performanceDescription-textarea>
+              <TinyRichEditor v-model:content="item.formValue.performanceDescription" />
             </template>
             <template #performanceAttachments-file-upload="props">
               <BaseFileListUpload
@@ -243,12 +239,8 @@ onBeforeMount(() => {
                 :accept="''"
               ></BaseFileListUpload>
             </template>
-            <template #engineeringImage-img-upload="props">
-              <BaseImageUpload
-                :imageList="item.formValue.engineeringImage"
-                :maxCount="1"
-                @on-change="(file) => handleImageChange(file, item, props)"
-              ></BaseImageUpload>
+            <template #engineeringDescription-textarea>
+              <TinyRichEditor v-model:content="item.formValue.engineeringDescription" />
             </template>
             <template #engineeringAttachments-file-upload="props">
               <BaseFileListUpload
