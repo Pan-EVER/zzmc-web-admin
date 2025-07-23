@@ -42,6 +42,12 @@ export default defineConfig({
         // target: 'http://localhost:3000/',
         changeOrigin: true,
       },
+      '/admin/uploads': {
+        target: 'http://8.138.37.133:3000/',
+        // target: 'http://localhost:3000/',
+        rewrite: (path) => path.replace(/^\/admin\/uploads/, '/uploads'),
+        changeOrigin: true,
+      },
     },
   },
 })
