@@ -131,7 +131,7 @@ export const tabsList = [
     tab: '性能数据',
     componentAttrs: {
       labelCol: { style: { width: '150px' } },
-      wrapperCol: { span: 16 },
+      wrapperCol: { span: 20 },
     },
     buttonContent: '保存性能数据',
     formValue: {
@@ -152,18 +152,18 @@ export const tabsList = [
       {
         label: '性能说明',
         name: 'performanceDescription',
-
+        slot: true,
         type: 'textarea',
         attrs: {
           placeholder: '请输入性能说明',
         },
       },
-      {
-        label: '上传性能图片',
-        name: 'performanceImage',
-        type: 'img-upload',
-        slot: true,
-      },
+      // {
+      //   label: '上传性能图片',
+      //   name: 'performanceImage',
+      //   type: 'img-upload',
+      //   slot: true,
+      // },
       {
         label: '上传性能附件',
         name: 'performanceAttachments',
@@ -177,7 +177,7 @@ export const tabsList = [
     tab: '工程图纸',
     componentAttrs: {
       labelCol: { style: { width: '150px' } },
-      wrapperCol: { span: 16 },
+      wrapperCol: { span: 20 },
     },
     buttonContent: '保存工程图纸',
     formValue: {
@@ -202,13 +202,14 @@ export const tabsList = [
         attrs: {
           placeholder: '请输入工程说明',
         },
-      },
-      {
-        label: '上传工程图片',
-        name: 'engineeringImage',
-        type: 'img-upload',
         slot: true,
       },
+      // {
+      //   label: '上传工程图片',
+      //   name: 'engineeringImage',
+      //   type: 'img-upload',
+      //   slot: true,
+      // },
       {
         label: '上传工程附件',
         name: 'engineeringAttachments',
