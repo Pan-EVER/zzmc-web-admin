@@ -14,14 +14,6 @@ export interface CreateProductModelDto {
    */
   engineeringDescription?: string
   /**
-   * 工程图纸图片
-   */
-  engineeringImage?: CreateFileInfoDto
-  /**
-   * 工程图纸标题
-   */
-  engineeringTitle?: string
-  /**
    * 安装细节附件列表
    */
   installationAttachments?: CreateFileInfoDto[]
@@ -29,10 +21,6 @@ export interface CreateProductModelDto {
    * 安装细节描述
    */
   installationDescription?: string
-  /**
-   * 安装细节标题
-   */
-  installationTitle?: string
   /**
    * 型号名称
    */
@@ -45,14 +33,6 @@ export interface CreateProductModelDto {
    * 性能数据描述
    */
   performanceDescription?: string
-  /**
-   * 性能数据图片
-   */
-  performanceImage?: CreateFileInfoDto
-  /**
-   * 性能数据标题
-   */
-  performanceTitle?: string
   /**
    * 产品ID
    */
@@ -71,7 +51,6 @@ export interface CreateProductModelDto {
    * 视频列表
    */
   videoList?: VideoInfo[]
-  [property: string]: any
 }
 export interface VideoInfo {
   id: number

@@ -96,19 +96,10 @@ export const tabsList = [
     },
     buttonContent: '保存安装细节',
     formValue: {
-      installationTitle: '',
       installationDescription: '',
       installationAttachments: [],
     },
     fields: [
-      {
-        label: '标题',
-        name: 'installationTitle',
-        type: 'input',
-        attrs: {
-          placeholder: '请输入标题',
-        },
-      },
       {
         label: '安装说明',
         name: 'installationDescription',
@@ -135,20 +126,10 @@ export const tabsList = [
     },
     buttonContent: '保存性能数据',
     formValue: {
-      performanceTitle: '',
       performanceDescription: '',
-      performanceImage: [],
       performanceAttachments: [],
     },
     fields: [
-      {
-        label: '标题',
-        name: 'performanceTitle',
-        type: 'input',
-        attrs: {
-          placeholder: '请输入标题',
-        },
-      },
       {
         label: '性能说明',
         name: 'performanceDescription',
@@ -158,12 +139,6 @@ export const tabsList = [
           placeholder: '请输入性能说明',
         },
       },
-      // {
-      //   label: '上传性能图片',
-      //   name: 'performanceImage',
-      //   type: 'img-upload',
-      //   slot: true,
-      // },
       {
         label: '上传性能附件',
         name: 'performanceAttachments',
@@ -181,20 +156,10 @@ export const tabsList = [
     },
     buttonContent: '保存工程图纸',
     formValue: {
-      engineeringTitle: '',
       engineeringDescription: '',
-      engineeringImage: [],
       engineeringAttachments: [],
     },
     fields: [
-      {
-        label: '标题',
-        name: 'engineeringTitle',
-        type: 'input',
-        attrs: {
-          placeholder: '请输入标题',
-        },
-      },
       {
         label: '工程说明',
         name: 'engineeringDescription',
@@ -204,12 +169,6 @@ export const tabsList = [
         },
         slot: true,
       },
-      // {
-      //   label: '上传工程图片',
-      //   name: 'engineeringImage',
-      //   type: 'img-upload',
-      //   slot: true,
-      // },
       {
         label: '上传工程附件',
         name: 'engineeringAttachments',
